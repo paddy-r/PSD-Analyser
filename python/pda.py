@@ -1,11 +1,52 @@
-''' HR 08/02/22
-    To:     (1) Parse Mastersizer-derived spreadsheet and extract particle size distribution (PSD) data,
+''' HR 08/02/22 Particle size distribution (PSD) analyser
+    To:     (1) Parse Mastersizer-derived spreadsheet and extract PSD data,
             (2) Fit PSD data to log-normal distribution, and
             (3) Apply product difference algorithm to PSD data to give n-component distribution with same moments
     References:
-        
+
 
     All original MATLAB code below, to be reproduced in Python '''
+
+import pandas as pd
+import os
+import matplotlib.pyplot as plt
+from scipy.stats import lognorm
+
+class PSDAnalyser():
+    def __init__(self):
+        self.suffix_dict = {'.csv': self.load_csv,
+                            '.xls': self.load_excel,
+                            '.xlsx': self.load_excel}
+
+    def load_spreadsheet(file):
+        file_ext = os.path.splitext(file)[1]
+        if file_ext in self.suffix_dict:
+            loaded_data = self.suffix_dict[file_ext](file)
+        return loaded_data
+
+    def load_csv(file, **kwargs):
+        loaded_data = pd.read_csv(file, **kwargs)
+        return loaded_data
+
+    def load_excel(file, **kwargs):
+        loaded_data = pd.read_excel(file, **kwargs)
+        return loaded_data
+
+    def fit_lognormal(psd):
+        ''' Details here: https://stackoverflow.com/questions/41940726/scipy-lognorm-fitting-to-histogram '''
+        M, S = lognorm()
+        return M,S
+
+    def product_difference_algorithm(psd, n):
+        psd_new = [[1,2,3],[0.1,0.4,0.5]]
+        return psd_new
+
+    def plot_all(psd_data, log_normal_params, pda_data):
+        ax = plt.subplot(111)
+        ax.plt(psd_data)
+        ax.plt(lognormal_params)
+        ax.plt(pda_data)
+
 
   # %% Intro
 
@@ -70,7 +111,7 @@
 # 31.7	49.8	12.2	0.3	0.1
 # 94.1	62.4	12.6	0.4	0.1];
 
-# d_smith_55_f9    = [420	295	210	150	104 
+# d_smith_55_f9    = [420	295	210	150	104
 # 0.9	28	64.5	6	0.5
 # 99.999	99	71	6.5	0.5];
 
@@ -87,7 +128,7 @@
 # d(5,:) = [0 diff(d(1,:))];
 # d      = d(:,2:length(d));
 
-# %% 
+# %%
 # % Find jamming fraction (i.e. high-shear packing fraction)
 # phi_rcp = 0.644;
 # A       = (m(2)*m(4)/m(3)^2) * phi_rcp/(1-phi_rcp);
@@ -160,7 +201,7 @@
 # % M        = p(2);
 # % mu(3)    = exp(M + S^2/2);
 # % sigma(3) = sqrt(exp(S^2 + 2*M) * (exp(S^2) - 1));
-# % 
+# %
 # % % Normal fit to diameter data, linearised
 # % p        = polyfit(X,d(1,:),1);
 # % sigma(4) = p(1)/sqrt(2);
