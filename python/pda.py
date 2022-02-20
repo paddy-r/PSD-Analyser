@@ -18,30 +18,30 @@ class PSDAnalyser():
                             '.xls': self.load_excel,
                             '.xlsx': self.load_excel}
 
-    def load_spreadsheet(file):
+    def load_spreadsheet(self, file):
         file_ext = os.path.splitext(file)[1]
         if file_ext in self.suffix_dict:
             loaded_data = self.suffix_dict[file_ext](file)
         return loaded_data
 
-    def load_csv(file, **kwargs):
+    def load_csv(self, file, **kwargs):
         loaded_data = pd.read_csv(file, **kwargs)
         return loaded_data
 
-    def load_excel(file, **kwargs):
+    def load_excel(self, file, **kwargs):
         loaded_data = pd.read_excel(file, **kwargs)
         return loaded_data
 
-    def fit_lognormal(psd):
+    def fit_lognormal(self, psd):
         ''' Details here: https://stackoverflow.com/questions/41940726/scipy-lognorm-fitting-to-histogram '''
         M, S = lognorm()
         return M,S
 
-    def product_difference_algorithm(psd, n):
+    def product_difference_algorithm(self, psd, n):
         psd_new = [[1,2,3],[0.1,0.4,0.5]]
         return psd_new
 
-    def plot_all(psd_data, log_normal_params, pda_data):
+    def plot_all(self, psd_data, lognormal_params, pda_data):
         ax = plt.subplot(111)
         ax.plt(psd_data)
         ax.plt(lognormal_params)
