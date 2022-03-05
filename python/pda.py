@@ -10,36 +10,65 @@
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
-from scipy.stats import lognorm
+# from scipy.stats import lognorm
+from scipy.stats import linregress
+from scipy.special import erfinv
+from math import exp, sqrt, log
 
 class PSDAnalyser():
-    def __init__(self):
+    def __init__(self, file = None, *args, **kwargs):
         self.suffix_dict = {'.csv': self.load_csv,
                             '.xls': self.load_excel,
                             '.xlsx': self.load_excel}
+        # if file:
+        #     self.loaded_data = self.load_spreadsheet(file)
+        # else:
+        #     self.loaded_data = None
 
     def load_spreadsheet(self, file):
-        file_ext = os.path.splitext(file)[1]
+        file_ext = os.path.splitext(file)[-1]
         if file_ext in self.suffix_dict:
-            loaded_data = self.suffix_dict[file_ext](file)
+            try:
+                loaded_data = self.suffix_dict[file_ext](file)
+                print('Loaded data from file: ', file)
+            except:
+                print('Could not load data from file: ', file)
         return loaded_data
 
-    def load_csv(self, file, **kwargs):
-        loaded_data = pd.read_csv(file, **kwargs)
+    def load_csv(self, file, *args, **kwargs):
+        loaded_data = pd.read_csv(file, *args **kwargs)
         return loaded_data
 
-    def load_excel(self, file, **kwargs):
-        loaded_data = pd.read_excel(file, **kwargs)
+    def load_excel(self, file,*args, **kwargs):
+        loaded_data = pd.read_excel(file, *args, **kwargs)
         return loaded_data
 
-    def fit_lognormal(self, psd):
-        ''' Details here: https://stackoverflow.com/questions/41940726/scipy-lognorm-fitting-to-histogram '''
-        M, S = lognorm()
-        return M,S
+    def fit_lognormal(self, d, P):
+        ''' Linearise using CDF, and fit '''
+        CDF = 0
+        x = []
+        for i,xi in enumerate(P):
+            CDF += xi
+            x.append(erfinv(2*CDF -1))
+        y = [log(el) for el in d]
+        fit_results = linregress(x, y)
+        S = fit_results[0]/sqrt(2.0)
+        M = fit_results[1]
+        R = fit_results[2]
+        mu = exp(M + S**2)
+        sigma = sqrt(exp(S**2 + 2*M)*(exp(S**2)-1))
+        return (M, S, R, mu, sigma)
 
     def product_difference_algorithm(self, psd, n):
-        psd_new = [[1,2,3],[0.1,0.4,0.5]]
+        if not psd:
+            psd = [[1,2,3],[0.1,0.4,0.5]]
+        psd_new = None
         return psd_new
+
+    ''' Calculate nth or (n/m)th moment of distribution '''
+    def moment(self, psd, n, m = None):
+        _moment = None
+        return _moment
 
     def plot_all(self, psd_data, lognormal_params, pda_data):
         ax = plt.subplot(111)
@@ -47,6 +76,11 @@ class PSDAnalyser():
         ax.plt(lognormal_params)
         ax.plt(pda_data)
 
+    def export_to_pickle(self, file):
+        pass
+
+    def export_to_excel(self, file):
+        pass
 
   # %% Intro
 
