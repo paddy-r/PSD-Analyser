@@ -20,7 +20,11 @@ Zenodo link here
 
 ## Detailed guide
 
-**Summary of PSD Analyser functionality**
+**How *PSD Analyser* works**
+
+The *PSD Analyser* app creates a user interface for loading, interacting with and saving PSD data. However, the hard work is done by the *psd_analyser* object, which can be used without the app and contains some functionality not available in the app (see below).
+
+**Summary of *PSD Analyser* functionality**
 
 1. Parsing of *Mastersizer* files in spreadsheet (CSV, Excel) formats
 2. Log-normal modelling of PSDs, where fitting can be performed to eithe the cumulative distribution function (CDF) or probability density function (PDF) of the PSD data
@@ -28,7 +32,7 @@ Zenodo link here
 4. (With standalone app) Visualisation of results in an interactive viewer, allowing output of figures in various formats (currently Python only)
 5. Saving PSD data, with derived log-normal models, into a single spreadsheet for further analysis
 
-**Running the PSD Analyser standalone app**
+**Running the *PSD Analyser* standalone app**
 
 - See the quick start guide above to get started
 - Once *PSD Analyser* is running, load one of the spreadsheets provided as examples; these are all outputs from the *Mastersizer* laser-diffraction-based particle sizing device manufactured by *Malvern Panalytical* (formerly *Malvern Instruments*)
