@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Mar 28 12:04:18 2022
-
-@author: hughr
-"""
-
-''' 29/03/22 '''
+''' HR 29/03/22 '''
 import tkinter as tk
 # from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -22,10 +16,6 @@ class TkApp(tk.Tk):
         super().__init__(*args, **kwargs)
         self.args = args
         self.kwargs = kwargs
-
-        self.XLABEL_DEFAULT = "Particle diameter (\u03BCm)"
-        self.YLABEL_DEFAULT_CDF = 'CDF'
-        self.YLABEL_DEFAULT_PDF = 'PDF (normalised)'
 
         ''' Fit and plot preferences; both default to CDF, PDF otherwise '''
         self._plot_mode = True
@@ -143,6 +133,12 @@ class TkApp(tk.Tk):
 
         ''' Set up PSDAnalyser for data management '''
         self.manager = psda.PSDAnalyser(ax = self.ax)
+
+        ''' Get plot label defaults from manager '''
+        self.XLABEL_DEFAULT = self.manager.XLABEL_DEFAULT
+        self.YLABEL_DEFAULT_CDF = self.manager.YLABEL_DEFAULT_CDF
+        self.YLABEL_DEFAULT_PDF = self.manager.YLABEL_DEFAULT_PDF
+
         self._current = None
 
         ''' Initialise info frame '''
@@ -383,6 +379,10 @@ class TkApp(tk.Tk):
         else:
             text2 = "PDF"
         print('Plot mode: ', text2)
+
+        ''' Get dataset index and display in info frame '''
+        info_text = ("Dataset", str(self._current))
+        self.info_label.configure(text = info_text)
 
         # ''' Dataset index text '''
         # text3 = self._current

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ''' HR 08/02/22 Particle size distribution (PSD) analyser
     To:     (1) Parse Mastersizer-derived spreadsheet and extract PSD data,
             (2) Fit PSD data to log-normal distribution, and
@@ -244,7 +245,11 @@ class PSDAnalyser():
         self.SAVE_TEXT_DEFAULT = "_computed"
         self.IMAGE_DUMP_DEFAULT = "plot"
         self.IMAGE_DUMP_EXT_DEFAULT = ".jpg"
-        
+
+        self.XLABEL_DEFAULT = "Particle diameter (\u03BCm)"
+        self.YLABEL_DEFAULT_CDF = 'CDF'
+        self.YLABEL_DEFAULT_PDF = 'PDF (normalised)'
+
         ''' Default fit and plot modes (True) are CDF '''
         # self.fit_mode_dict = {True: "Fit by CDF", False: "Fit by PDF"}
         self.FIT_MODE_DEFAULT = True
@@ -510,7 +515,7 @@ class PSDAnalyser():
             ds['fit_by_CDF'] = True
             M,S = fit_lognormal_CDF(x, C, p0 = p0)
             # print('M,S after toggle: ', M,S)
-        
+
         D43_fit = lognormal_moment(M,S,4,3)
         D32_fit = lognormal_moment(M,S,3,2)
         d10_fit = lognormal_quantile(M,S,10)
@@ -540,7 +545,7 @@ class PSDAnalyser():
         original_data = self.loaded_data
         computed_data = pd.DataFrame()
         try:
-            with pd.ExcelWriter(file) as writer:  
+            with pd.ExcelWriter(file) as writer:
                 original_data.to_excel(writer, sheet_name = 'Original data')
                 computed_data.to_excel(writer, sheet_name = 'Computed data')
             return True
@@ -548,6 +553,14 @@ class PSDAnalyser():
             print('Could not save file; exception follows...')
             print(e)
             return False
+
+        ''' Scrap for multiple DFs to sheet '''
+        # writer = pd.ExcelWriter('test.xlsx',engine='xlsxwriter')
+        # workbook=writer.book
+        # worksheet=workbook.add_worksheet('Validation')
+        # writer.sheets['Validation'] = worksheet
+        # df.to_excel(writer,sheet_name='Validation',startrow=0 , startcol=0)
+        # another_df.to_excel(writer,sheet_name='Validation',startrow=20, startcol=0)
 
     ''' Dump current figure to image file '''
     def dump_figure(self, file = None):
@@ -575,28 +588,15 @@ class PSDAnalyser():
 
 if __name__ == "__main__":
 
-    ''' Basic calculations testing; PSDs from old MATLAB scripts '''
-    d_h22 = ["7.585776    8.709636    10    11.481536    13.182567    15.135612    17.378008    19.952623    22.908677    26.30268    30.199517    34.673685    39.810717    45.708819    52.480746    60.255959    69.183097    79.432823",
-              "0.007635    0.135005    0.310442    0.475434    0.558515    0.617157    0.910635    1.939477    4.28946    8.158915    12.980964    17.173874    18.739872    16.548617    11.479466    5.072049    0.602481",
-              "0.007635    0.14264    0.453082    0.928516    1.487031    2.104188    3.014823    4.9543    9.24376    17.402675    30.383639    47.557513    66.297385    82.846002    94.325468    99.397517    99.999998"]
+    '''
+    EXAMPLE 1: Load PSD data, model as Log-normal and output to spreadsheet
+    '''
 
-    d_h16 = ["30.199517    34.673685    39.810717    45.708819    52.480746    60.255959    69.183097    79.432823    91.201084    104.712855    120.226443    138.038426    158.489319",
-              "0.012362    0.42421    2.158819    6.105918    12.005703    17.790159    20.449133    18.41713    12.907406    6.753966    2.47866    0.46569",
-              "0.012362    0.436572    2.595391    8.701309    20.707012    38.497171    58.946304    77.363434    90.27084    97.024806    99.503466    99.969156"]
+    ''' Load data from spreadsheet '''
+    ps = PSDAnalyser()
 
-    raw_data = d_h16
-    # raw_data = d_h22
-
-    bins = [float(el) for el in raw_data[0].split()]
-    PDF = [float(el)/100 for el in raw_data[1].split()]
-    CDF = [float(el)/100 for el in raw_data[2].split()]
-
-    bin_widths = np.diff(bins)
-    # x = [(bins[i] + bins[i+1])/2 for i in range(0, len(bins)-1)]
-    x = [np.sqrt(bins[i] * bins[i+1]) for i in range(0, len(bins)-1)]
-
-    sum_PDF = sum(PDF)
-    PDF_normalised = [a/(b*sum_PDF) for a,b in zip(PDF,bin_widths)]
+    file = 'C:\\Users\\hughr\\MATLAB Drive\\PSD-Analyser\\MS2000 Export.xlsx'
+    ps.load_spreadsheet(file)
 
     ''' Get estimate from linearised version '''
     M,S = fit_lognormal_CDF_linear(x, CDF)
@@ -606,17 +606,35 @@ if __name__ == "__main__":
     M,S = fit_lognormal_PDF(x, PDF_normalised, p0 = [M,S])
     print('Final results for M,S from nonlinear fit: ', M,S)
 
-    ''' Plotting; simplest possible MPL plot axes! '''
+
+
+    '''
+    EXAMPLE 2: Load PSD data, plot CDF and dump to JPG image
+    '''
+
+    ''' Load data from spreadsheet '''
+    ps.load_spreadsheet(file)
+
+    ''' Select dataset and fit to log-normal with pre-fitting '''
+
+    ''' Set up plotting; this is the simplest possible MPL plot axes '''
     ax = mpl.pyplot.axes()
 
+    ''' Plot original and log-normal fitted data; choose either PDF or CDF '''
     plot_CDF(x, CDF, ax, (M,S),
-             xlabel = "Particle diameter ($\mu$m)",
-             ylabel = 'CDF')
+             xlabel = self.XLABEL_DEFAULT,
+             ylabel = self.YLABEL_DEFAULT_CDF)
     plot_PDF(x, PDF_normalised, ax, (M,S),
-             xlabel = "Particle diameter ($\mu$m)",
-             ylabel = 'PDF (normalised)')
+             xlabel = self.XLABEL_DEFAULT,
+             ylabel = self.YLABEL_DEFAULT_PDF)
 
-    ''' File load testing '''
-    ps = PSDAnalyser()
-    file = 'C:\\Users\\hughr\\MATLAB Drive\\PSD-Analyser\\MS2000 Export.xlsx'
+
+
+    '''
+    EXAMPLE 3: Load PSD data, model via product difference algorithm
+    '''
+
+    ''' Load data from spreadsheet '''
     ps.load_spreadsheet(file)
+
+
