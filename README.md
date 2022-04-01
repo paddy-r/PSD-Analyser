@@ -15,14 +15,15 @@ Zenodo link here
 - Clone the repository or download files individually
 - (Python) Import into your Python environment or import into MATLAB
   - Ensure all the necessary packages listed in the *Dependencies* document are installed in your environment
+  - Instructions for creating a miminal environment in which *PSDAnalyser* can be run is provided in *env_setup.txt*, using the *Anaconda* distribution of Python (details [here](https://www.anaconda.com/))
 - (MATLAB) Import each function and class individually
-  - Run the *import_all.m* script in MATLAB and all the necessary functions and classes will be installed
+  - Run the *import_all.m* script in MATLAB and all the necessary functions and classes will be installed (**to be completed**)
 
 ## Detailed guide
 
 **How *PSD Analyser* works**
 
-The *PSD Analyser* app creates a user interface for loading, interacting with and saving PSD data. However, the hard work is done by the *psd_analyser* object, which can be used without the app and contains some functionality not available in the app (see below).
+The app (*PSD-Analyser*) creates a user interface for loading, interacting with and saving PSD data. However, the hard work is done by the *PSDAnalyser* class within the *psd_analyser* library, which can be used without the app and contains some functionality not available in the app (see below).
 
 **Summary of *PSD Analyser* functionality**
 
@@ -63,7 +64,7 @@ pip install pyinstaller
 2. Then navigate to the directory containing your Python scripts (*i.e.* *PSDAnalyser.py* and *psd_analyser.py*) and create the executables, where: the ```noconsole``` option creates an executable without a console window (this option can be removed if you wish to use the console window for debugging); and the ```onefile``` option creates a single executable file (if this option is removed, the resulting executable may be smaller but a number of directories will be created alongside the executable)
 
 ```
-pyinstaller --onefile --noconsole PSDAnalyser.py
+pyinstaller --onefile --noconsole PSD-Analyser.py
 ```
 
 **Important equations used by *PSD Analyser***
