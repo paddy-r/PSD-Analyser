@@ -9,6 +9,7 @@ Zenodo link here
 **Run the standalone executable (currently Windows only)**
 - Go to the *Releases* on the right of the right of the page
 - Download the executable file (ending *.exe*) and any of the spreadsheet example files from the main page
+- Once downloaded, double-click the executable file and it will run
 
 **Run the code directly**
 - Clone the repository or download files individually
@@ -23,9 +24,14 @@ Zenodo link here
 1. Parsing of *Mastersizer* files in spreadsheet (CSV, Excel) formats
 2. Log-normal modelling of PSDs
 3. Application to PSDs of the product difference algorithm (PDA) to PSDs, which computes the discrete distribution of *N* elements with the same statistical moments (mean, etc.)
-4. Visualisation of results in interactive viewer, allowing output of figures in various formats (currently Python only)
+4. (With standalone app) Visualisation of results in an interactive viewer, allowing output of figures in various formats (currently Python only)
+5. Saving PSD data, with derived log-normal models, into a single spreadsheet for further analysis
 
+**Running the PSD Analyser standalone app**
 
+- See the quick start guide above to get started
+- Once *PSD Analyser* is running, load one of the spreadsheets provided as examples; these are all outputs from the *Mastersizer* laser-diffraction-based particle sizing device manufactured by *Malvern Panalytica* (formerly *Malvern Instruments*)
+- 
 
 ## Contact and issue reporting
 
