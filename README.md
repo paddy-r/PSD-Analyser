@@ -1,8 +1,8 @@
-#PSD Analyser
+# **PSD Analyser**
 
-##Hugh Patrick Rice, January 2021 onwards
+## Hugh Patrick Rice, January 2021 onwards
 
-##A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation
+## **A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation**
 
 Includes:
 1. Parsing of *Mastersizer* files in spreadsheet (CSV, Excel) formats
@@ -11,6 +11,6 @@ Includes:
 4. Visualisation of results in interactive viewer, allowing output of figures in various formats (currently Python only)
 
 
-#References
+# **References**
 
 1. Blah
