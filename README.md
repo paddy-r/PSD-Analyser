@@ -1,6 +1,6 @@
 ## **PSD Analyser**
 
-### Hugh Patrick Rice, January 2021 onwards
+**Hugh Patrick Rice, January 2021 onwards**
 
 ### **A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation**
 
