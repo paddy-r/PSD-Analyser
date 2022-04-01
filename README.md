@@ -34,7 +34,7 @@ Zenodo link here
 - Once *PSD Analyser* is running, load one of the spreadsheets provided as examples; these are all outputs from the *Mastersizer* laser-diffraction-based particle sizing device manufactured by *Malvern Panalytical* (formerly *Malvern Instruments*)
 - A summary of the user interface is provided below
   - *Load file* Select a spreadsheet from which to load PSD data; several example files are provided
-  - *Save data* Dump all loaded and modelled data to a single spreadsheet; by default the file format is the same as the original load-file, but the user can specify otherwise
+  - *Save data* Dump all loaded and modelled data to a single spreadsheet; by default the file format is the same as the original load-file, but the user can specify otherwise; the index of each dataset corresponds to the row in which it appeared in the original data file
   - *Export figure* Dump current plot to an image file for later use; user can specify image format
   - *Forward and back arrows* If the file loaded contains multiple PSD datasets, these arrow buttons scroll through them; the dataset number is shown in the information panel (bottom left)
   - *Fit to PDF/CDF buttons* These buttons toggle between the two methods for fitting of a log-normal distribution to the dataset displayed; see code for more information, and note that each can give different results for the log-normal fit parameters
