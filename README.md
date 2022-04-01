@@ -13,4 +13,7 @@ Includes:
 
 ## References
 
-1. Blah
+1. McGraw (1997), DOI: https://doi.org/10.1080/02786829708965471
+2. Marchisio et al. (2003), DOI: https://doi.org/10.1016/S0009-2509(03)00211-2
+3. Gordon (1968), DOI: https://doi.org/10.1063/1.1664624
+4. Wheeler and Gordon (1971), Bounds for averages using moment constraints, In: Baker and Gammel (eds.) The Padé Approximant in Theoretical Physics, New York and London: Elsevier Science. ISBN: 9780080955803
