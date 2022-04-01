@@ -50,6 +50,22 @@ The *PSD Analyser* app creates a user interface for loading, interacting with an
   1. The product difference algorithm (PDA) can be used to model a given PSD as another with an arbitrary number of elements and the same moments, *N*; this is intended as a tool in computationally expensive applications that rely on size-fraction-dependent calculations
   2. Log-normal fitting can be executed with or without pre-fitting (pre-fitting is used by default in the app) *via* linear regression using a linearised version of the equation for the log-normal CDF; pre-fitting has a computational cost but makes it more likely that a subsequent non-linear fit will be successful
 
+**Creating your own standalone app using the *PSD Analyser* source code**
+
+The app was created using the Python library *pyinstaller*, and you can do the same. A rough outline of the necessary code for doing so is below.
+
+1. In the command line in your Python environment, install *pyinstaller* (see [here](https://pypi.org/project/pyinstaller/)):
+
+```
+pip install pyinstaller
+```
+
+2. Then navigate to the directory containing your Python scripts (*i.e.* *PSDAnalyser.py* and *psd_analyser.py*) and create the executables, where: the ```noconsole``` option creates an executable without a console window (this option can be removed if you wish to use the console window for debugging); and the ```onefile``` option creates a single executable file (if this option is removed, the resulting executable may be smaller but a number of directories will be created alongside the executable)
+
+```
+pyinstaller --onefile --noconsole PSDAnalyser.py
+```
+
 **Important equations used by *PSD Analyser***
 
 1. The log-normal cumulative distribution function (CDF). See [here](https://en.wikipedia.org/wiki/Log-normal_distribution#Cumulative_distribution_function) and [here](https://mathworld.wolfram.com/LogNormalDistribution.html).
