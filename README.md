@@ -4,7 +4,7 @@
 
 Zenodo link here
 
-## Quick start user guide
+## Quick-start guide
 
 **Run the standalone executable (currently Windows only)**
 - Go to the *Releases* on the right of the right of the page
@@ -18,11 +18,12 @@ Zenodo link here
 - (MATLAB) Import each function and class individually
   - Run the *import_all.m* script in MATLAB and all the necessary functions and classes will be installed
 
-## Detailed guide with examples
+## Detailed guide
 
-*Summary of PSD Analyser functionality*
+**Summary of PSD Analyser functionality**
+
 1. Parsing of *Mastersizer* files in spreadsheet (CSV, Excel) formats
-2. Log-normal modelling of PSDs
+2. Log-normal modelling of PSDs, where fitting can be performed to eithe the cumulative distribution function (CDF) or probability density function (PDF) of the PSD data
 3. Application to PSDs of the product difference algorithm (PDA) to PSDs, which computes the discrete distribution of *N* elements with the same statistical moments (mean, etc.)
 4. (With standalone app) Visualisation of results in an interactive viewer, allowing output of figures in various formats (currently Python only)
 5. Saving PSD data, with derived log-normal models, into a single spreadsheet for further analysis
@@ -30,13 +31,30 @@ Zenodo link here
 **Running the PSD Analyser standalone app**
 
 - See the quick start guide above to get started
-- Once *PSD Analyser* is running, load one of the spreadsheets provided as examples; these are all outputs from the *Mastersizer* laser-diffraction-based particle sizing device manufactured by *Malvern Panalytica* (formerly *Malvern Instruments*)
-- 
+- Once *PSD Analyser* is running, load one of the spreadsheets provided as examples; these are all outputs from the *Mastersizer* laser-diffraction-based particle sizing device manufactured by *Malvern Panalytical* (formerly *Malvern Instruments*)
+- A summary of the user interface is provided below
+  - *Load file* Select a spreadsheet from which to load PSD data; several example files are provided
+  - *Save data* Dump all loaded and modelled data to a single spreadsheet; by default the file format is the same as the original load-file, but the user can specify otherwise
+  - *Export figure* Dump current plot to an image file for later use; user can specify image format
+  - *Forward and back arrows* If the file loaded contains multiple PSD datasets, these arrow buttons scroll through them; the dataset number is shown in the information panel (bottom left)
+  - *Fit to PDF/CDF buttons* These buttons toggle between the two methods for fitting of a log-normal distribution to the dataset displayed; see code for more information, and note that each can give different results for the log-normal fit parameters
+  - *Plot PDF/CDF buttons* These buttons toggle between plotting the loaded and log-normal fitted data in CDF and PDF form, depending on the user's preference
+
+**Using *PSD Analyser* in code form**
+
+- Running the code directly provides additional flexibility not available in the app, in particular:
+  1. The product difference algorithm (PDA) can be used to model a given PSD as another with an arbitrary number of elements and the same moments, *N*; this is intended as a tool in computationally expensive applications that rely on size-fraction-dependent calculations
+  2. Log-normal fitting can be executed with or without pre-fitting (pre-fitting is used by default in the app) *via* linear regression using a linearised version of the equation for the log-normal CDF; pre-fitting has a computational cost but makes it more likely that a subsequent non-linear fit will be successful
+
+**Important equations used by *PSD Analyser***
+
+1. The log-normal cumulative distribution function (CDF). See [here](https://en.wikipedia.org/wiki/Log-normal_distribution#Cumulative_distribution_function) and [here](https://mathworld.wolfram.com/LogNormalDistribution.html).
+2. The log-normal probability density function (PDF). See [here](https://en.wikipedia.org/wiki/Log-normal_distribution#Probability_density_function) and [here](https://mathworld.wolfram.com/LogNormalDistribution.html).
+3. The product difference algorithm (PDA). See references below.
 
 ## Contact and issue reporting
 
 Please either raise an issue here at Github or contact me directly.
-
 *Contact:* Hugh Rice, h.p.rice@leeds.ac.uk
 
 ## How to cite this repository
@@ -45,10 +63,11 @@ Please either raise an issue here at Github or contact me directly.
 - Depending on your style, your citation should look something like this: Rice HP (2022), *PSD Analyser: A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation*, Github code repository, DOI: 
 - If you're unsure, please contact me
 
-## References
+## References and notes
 
-*Note on history and previous implementation*
+*Note on history, development and previous implementation*
 - The concepts behind *PSD Analyser* were developed during research that led to the production of references (1) and (2). Please refer to those for more details and examples.
+- The standalone app was constructed using the Python GUI library *Tkinter* and relies heavily on standard Python numerical and mathematical libraries *scipy*, *numpy* and *pandas*, as well as *matplotlib* for visualisation.
 
 (1) Rice HP, Fairweather M, Peakall J, Hunter TN, Mahmoud B and Biggs SR (2015), *Constraints on the functional form of the critical deposition velocity in solid–liquid pipe flow at low solid volume fractions*, Chemical Engineering Science **126** 759-770, DOI: https://doi.org/10.1016/j.ces.2014.12.039
 
