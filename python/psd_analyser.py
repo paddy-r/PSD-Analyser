@@ -110,7 +110,7 @@ def moments_compare(x, P, M, S, n, m):
     - Marchisio et al. (2003), DOI: https://doi.org/10.1016/S0009-2509(03)00211-2
     - Gordon (1968), DOI: https://doi.org/10.1063/1.1664624
     - Wheeler and Gordon (1971), Bounds for averages using moment constraints,
-        In: Baker and Gammel (eds.) The Padé Approximant in Theoretical Physics,
+        In: Baker and Gammel (eds.), The Padé Approximant in Theoretical Physics,
         New York and London: Elsevier Science. ISBN: 9780080955803 '''
 def product_difference_algorithm(PSD, N = None):
     ''' Check if binned; if so, unbin, etc. '''
