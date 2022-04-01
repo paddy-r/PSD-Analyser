@@ -1,8 +1,6 @@
-## **PSD Analyser**
+## **PSD Analyser: A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation**
 
 ### Hugh Patrick Rice, January 2021 onwards
-
-### **A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation**
 
 Zenodo link here
 
@@ -34,6 +32,11 @@ Zenodo link here
 Please either raise an issue here at Github or contact me directly.
 
 *Contact:* Hugh Rice, h.p.rice@leeds.ac.uk
+
+## How to cite this repository
+
+- Copy or click the Zenodo link above, which has a corresponding DOI attached
+- 
 
 ## References
 
