@@ -1,2 +1,0 @@
-% hi something
-% something else
