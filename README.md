@@ -4,16 +4,27 @@
 
 ### **A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation**
 
+Zenodo link here
+
+## Quick start user guide
+
+**Run the standalone executable (currently Windows only)**
+- Go to the *Releases* on the right of the right of the page
+- Download the executable file (ending *.exe*) and any of the spreadsheet example files from the main page
+
+**Run the Python or MATLAB code directly**
+- Clone the repository or download files individually
+- Import into your Python environment or import into MATLAB
+- All dependencies are listed in the *Dependencies* document
+
 *Includes*
 1. Parsing of *Mastersizer* files in spreadsheet (CSV, Excel) formats
 2. Log-normal modelling of PSDs
-3. Application to PSDs of the product difference algorithm (PDA) to PSDs, which computes the discrete distribution of *N* elements with the same moments
+3. Application to PSDs of the product difference algorithm (PDA) to PSDs, which computes the discrete distribution of *N* elements with the same statistical moments (mean, etc.)
 4. Visualisation of results in interactive viewer, allowing output of figures in various formats (currently Python only)
 
 *Note on history and previous implementation*
 - The concepts behind *PSD Analyser* were developed during research that led to the production of references (1) and (2). Please refer to those for more details and examples.
-
-## Quick start user guide
 
 ## Detailed guide with examples
 
