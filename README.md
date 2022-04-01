@@ -10,10 +10,12 @@ Zenodo link here
 - Go to the *Releases* on the right of the right of the page
 - Download the executable file (ending *.exe*) and any of the spreadsheet example files from the main page
 
-**Run the Python or MATLAB code directly**
+**Run the code directly**
 - Clone the repository or download files individually
-- Import into your Python environment or import into MATLAB
-- All dependencies are listed in the *Dependencies* document
+- (Python) Import into your Python environment or import into MATLAB
+  - Ensure all the necessary packages listed in the *Dependencies* document are installed in your environment
+- (MATLAB) Import each function and class individually
+  - Run the *import_all.m* script in MATLAB and all the necessary functions and classes will be installed
 
 ## Detailed guide with examples
 
