@@ -55,6 +55,7 @@ Zenodo link here
 ## Contact and issue reporting
 
 Please either raise an issue here at Github or contact me directly.
+
 *Contact:* Hugh Rice, h.p.rice@leeds.ac.uk
 
 ## How to cite this repository
