@@ -23,8 +23,7 @@ Zenodo link here
 3. Application to PSDs of the product difference algorithm (PDA) to PSDs, which computes the discrete distribution of *N* elements with the same statistical moments (mean, etc.)
 4. Visualisation of results in interactive viewer, allowing output of figures in various formats (currently Python only)
 
-*Note on history and previous implementation*
-- The concepts behind *PSD Analyser* were developed during research that led to the production of references (1) and (2). Please refer to those for more details and examples.
+
 
 ## Contact and issue reporting
 
@@ -39,6 +38,9 @@ Please either raise an issue here at Github or contact me directly.
 - If you're unsure, please contact me
 
 ## References
+
+*Note on history and previous implementation*
+- The concepts behind *PSD Analyser* were developed during research that led to the production of references (1) and (2). Please refer to those for more details and examples.
 
 (1) Rice HP, Fairweather M, Peakall J, Hunter TN, Mahmoud B and Biggs SR (2015), *Constraints on the functional form of the critical deposition velocity in solid–liquid pipe flow at low solid volume fractions*, Chemical Engineering Science **126** 759-770, DOI: https://doi.org/10.1016/j.ces.2014.12.039
 
