@@ -2,7 +2,7 @@
 
 ### Hugh Patrick Rice, 2022
 
-Zenodo link here
+[![DOI](https://zenodo.org/badge/328645883.svg)](https://zenodo.org/badge/latestdoi/328645883)
 
 ## Quick-start guide
 
@@ -17,12 +17,12 @@ Zenodo link here
   - Ensure all the necessary libraries (see imports in *PSD-Analyser* an *psd_analyser*) are installed in your environment
   - Instructions for creating a miminal environment in which *PSDAnalyser* can be run is provided in *env_setup.txt*, using the *Anaconda* distribution of Python (details [here](https://www.anaconda.com/)) or the standard Python environment management library *venv*
   - There are several examples given in the *psd_analyser* script to demonstrate functionality, specifically: loading and saving data, plotting PSDs, fitting PSDs to log-normal distributions; and reducing them to *N* components using the product difference algorithm (PDA); comment out the code as appropriate
-- (MATLAB) Import each function and class individually
-  - Run the *import_all.m* script in MATLAB and all the necessary functions and classes will be installed (**to be completed**)
+- (MATLAB) Import each function and class individually (**to be completed**)
+  - Download and call the functions individually (more functionality under development)
 
 ## Detailed guide
 
-**How *PSD Analyser* works**
+**How *PSD Analyser* works (Python)**
 
 The app (*PSD-Analyser*) creates a user interface for loading, interacting with and saving PSD data. However, the hard work is done by the *PSDAnalyser* class within the *psd_analyser* library, which can be used without the app and contains some functionality not available in the app (see below).
 
@@ -31,10 +31,10 @@ The app (*PSD-Analyser*) creates a user interface for loading, interacting with 
 1. Parsing of *Mastersizer* files in spreadsheet (CSV, Excel) formats
 2. Log-normal modelling of PSDs, where fitting can be performed to eithe the cumulative distribution function (CDF) or probability density function (PDF) of the PSD data
 3. Application to PSDs of the product difference algorithm (PDA) to PSDs, which computes the discrete distribution of *N* elements with the same statistical moments (mean, etc.)
-4. (With standalone app) Visualisation of results in an interactive viewer, allowing output of figures in various formats (currently Python only)
+4. (With standalone Python app) Visualisation of results in an interactive viewer, allowing output of figures in various formats (currently Python only)
 5. Saving PSD data, with derived log-normal models, into a single spreadsheet for further analysis
 
-**Running the *PSD Analyser* standalone app**
+**Running the *PSD Analyser* standalone app (Python)**
 
 - See the quick start guide above to get started
 - Once *PSD Analyser* is running, load one of the spreadsheets provided as examples; these are all outputs from the *Mastersizer* laser-diffraction-based particle sizing device manufactured by *Malvern Panalytical* (formerly *Malvern Instruments*)
@@ -46,13 +46,13 @@ The app (*PSD-Analyser*) creates a user interface for loading, interacting with 
   - *Fit to PDF/CDF buttons* These buttons toggle between the two methods for fitting of a log-normal distribution to the dataset displayed; see code for more information, and note that each can give different results for the log-normal fit parameters
   - *Plot PDF/CDF buttons* These buttons toggle between plotting the loaded and log-normal fitted data in CDF and PDF form, depending on the user's preference
 
-**Using *PSD Analyser* in code form**
+**Using *PSD Analyser* in code form (Python)**
 
 - Running the code directly provides additional flexibility not available in the app, in particular:
   1. The product difference algorithm (PDA) can be used to model a given PSD as another with an arbitrary number of elements and the same moments, *N*; this is intended as a tool in computationally expensive applications that rely on size-fraction-dependent calculations
   2. Log-normal fitting can be executed with or without pre-fitting (pre-fitting is used by default in the app) *via* linear regression using a linearised version of the equation for the log-normal CDF; pre-fitting has a computational cost but makes it more likely that a subsequent non-linear fit will be successful
 
-**Creating your own standalone app using the *PSD Analyser* source code**
+**Creating your own standalone app using the *PSD Analyser* source code (Python)**
 
 The app was created using the Python library *pyinstaller*, and you can do the same. A rough outline of the necessary code for doing so is below.
 
@@ -83,7 +83,7 @@ Please either raise an issue here at Github or contact me directly.
 ## How to cite this repository
 
 - Copy or click the Zenodo link above, which has a corresponding DOI attached, and construct your own citation that contains it
-- Depending on your style, your citation should look something like this: Rice HP (2022), *PSD Analyser: A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation*, Github code repository, DOI: 
+- Depending on your style, your citation should look something like this: Rice HP (2022), *PSD Analyser: A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation*, Github code repository, DOI: 10.5281/zenodo.6408352
 - If you're unsure, please contact me
 
 ## References and notes
