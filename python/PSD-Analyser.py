@@ -22,7 +22,7 @@ class TkApp(tk.Tk):
         # self._fit_mode = True
 
         ''' All GUI set-up '''
-        self.title("PSD Analyser")
+        self.title("PSD-Analyser")
 
         self.frame_edge_col = 'black'
         self.frame_edge_thickness = 1
@@ -185,12 +185,6 @@ class TkApp(tk.Tk):
                                                     filetypes = (("Excel files (.xlsx)", "*.xlsx"),
                                                                  ("Excel files (.xls)", "*.xls"),
                                                                  ("Comma-separated files (.csv)", "*.csv")))
-        # if save_file:
-        #     print('Save file full path: ', save_file)
-        #     return save_file
-        # else:
-        #     print('No save file selected; returning None')
-        #     return None
 
         ''' Can pass None here, as defaults to loaded file name + "_computed" in that case '''
         self.manager.export_to_spreadsheet(file = save_file)

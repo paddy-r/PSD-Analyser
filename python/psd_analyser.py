@@ -6,18 +6,16 @@
     References in methods '''
 
 import pandas as pd
-# from numpy import diff
 import os
 import matplotlib as mpl
-# from scipy.stats import lognorm
+# from matplotlib.figure import Figure
 from scipy.stats import linregress
 from scipy.special import erf, erfinv
 from scipy.optimize import curve_fit
+# from scipy.stats import lognorm
 import numpy as np
-# from numpy import exp, sqrt, log, pi, linspace, diff, zeros, diag, cos
+# from numpy import exp, sqrt, log, pi, linspace, diff, zeros, diag, cos, diff
 from numpy.linalg import eig
-# from matplotlib.figure import Figure
-import matplotlib as mpl
 
 
 
@@ -117,9 +115,6 @@ def product_difference_algorithm(PSD, N = None):
     ''' Check if binned; if so, unbin, etc. '''
     x = PSD[0]
     P = PSD[1]
-    if len(x) != len(P):
-        # Do something here
-        pass
 
     ''' Default to 3 for output PSD '''
     if not N:
@@ -166,7 +161,6 @@ def product_difference_algorithm(PSD, N = None):
         2. Eigenvalues are values, d '''
     J = np.diag(b,-1) + np.diag(a) + np.diag(b,1)
     x_new,v = eig(J)
-    # P_new = [m[0]*el[0]**2 for el in v.transpose()]
     P_new = [m[0]*el**2 for el in v[0]]
 
     ''' Create new PSD '''
@@ -233,6 +227,7 @@ def get_valids(x_raw, C_raw, P_raw):
     return x,C,P
 
 
+
 class PSDAnalyser():
 
     ''' Constructor '''
@@ -251,7 +246,6 @@ class PSDAnalyser():
         self.YLABEL_DEFAULT_PDF = 'PDF (normalised)'
 
         ''' Default fit and plot modes (True) are CDF '''
-        # self.fit_mode_dict = {True: "Fit by CDF", False: "Fit by PDF"}
         self.FIT_MODE_DEFAULT = True
         self.FIT_MODE_PREFIT_DEFAULT = True
         self.PLOT_MODE_DEFAULT = True
@@ -283,14 +277,6 @@ class PSDAnalyser():
             print('File type not supported; could not load data')
             return None
 
-        # return self.loaded_data
-
-    # def get_all_size_data(self, loaded_data, *args, **kwargs):
-    #     ''' Check data loaded from file '''
-    #     if not (self._file and self._loaded):
-    #         print('No file loaded; cannot get size data')
-    #         return None
-
         ld = self.loaded_data
 
         start_text = 'Result Between'
@@ -318,10 +304,6 @@ class PSDAnalyser():
                     ''' Exclude if "nan", i.e. empty float '''
                     if np.isnan(ld.loc[row][0]):
                         continue
-                    # row_name = str(ld.loc[row][0])
-                # elif type(ld.loc[row][0]) == str:
-                #     row_name = ld.loc[row][0]
-                # self.bin_groups[group].append((row, row_name))
                 self.bin_groups[group].append(row)
 
         ''' Create datasets for each data row '''
@@ -332,6 +314,8 @@ class PSDAnalyser():
                 ''' Add to dataset dict if dataset returned correctly '''
                 if dataset:
                     self.datasets[row] = dataset
+
+        print('Loaded spreadsheet')
 
     ''' Return dataset by row; bin group optional '''
     def get_dataset(self, row, group = None, fit_mode = None, prefit = None, column_dict = None):
@@ -353,7 +337,6 @@ class PSDAnalyser():
         ''' Check fit type '''
         if (fit_mode is None) or (fit_mode not in (True,False)):
             fit_mode = self.FIT_MODE_DEFAULT
-        # fit_by = self.fit_mode_dict[fit_mode]
         fit_by_CDF = fit_mode
 
         ''' Create dictionary for output '''
@@ -401,12 +384,6 @@ class PSDAnalyser():
         # print('d90: ', d90)
 
         ''' Filter by non-zero PDF entries to avoid numerical problems with fitting '''
-        # valids = [i for i,el in enumerate(PDF_normalised) if (el > 0.0) and CDF[i] < 1.0]
-        # # print('nonzeros: \n', valids)
-        # x = [bin_centres[i] for i in valids]
-        # C = [CDF[i] for i in valids]
-        # P = [PDF_normalised[i] for i in valids]
-
         x,C,P = get_valids(bin_centres, CDF, PDF_normalised)
 
         ''' Get all fitted data '''
@@ -458,27 +435,6 @@ class PSDAnalyser():
                      'd90_fit',
                      'phi',
                      'fit_by_CDF']
-        # dataset['sample_name'] = sample_name
-        # dataset['D43'] = D43
-        # dataset['D32'] = D32
-        # dataset['d10'] = d10
-        # dataset['d50'] = d50
-        # dataset['d90'] = d90
-        # dataset['bins'] = bins
-        # dataset['bin_widths'] = bin_widths
-        # dataset['bin_centres'] = bin_centres
-        # dataset['PDF'] = PDF
-        # dataset['PDF_normalised'] = PDF_normalised
-        # dataset['CDF'] = CDF
-        # dataset['M'] = M
-        # dataset['S'] = S
-        # dataset['D43_fit'] = D43_fit
-        # dataset['D32_fit'] = D32_fit
-        # dataset['d10_fit'] = d10_fit
-        # dataset['d50_fit'] = d50_fit
-        # dataset['d90_fit'] = d90_fit
-        # dataset['phi'] = phi
-        # dataset['fit_by_CDF'] = fit_by_CDF
 
         ''' Alternate method for populating "dataset" dict: by "eval",
             instead of by manual addition, as above '''
@@ -543,37 +499,85 @@ class PSDAnalyser():
             - Original data are exactly as in loaded file
             - Computed data are all PSDs, lognormal params, etc., computed from original data '''
         original_data = self.loaded_data
-        computed_data = pd.DataFrame()
-        try:
-            with pd.ExcelWriter(file) as writer:
-                original_data.to_excel(writer, sheet_name = 'Original data')
-                computed_data.to_excel(writer, sheet_name = 'Computed data')
-            return True
-        except Exception as e:
-            print('Could not save file; exception follows...')
-            print(e)
-            return False
 
-        ''' Scrap for multiple DFs to sheet '''
-        # writer = pd.ExcelWriter('test.xlsx',engine='xlsxwriter')
-        # workbook=writer.book
-        # worksheet=workbook.add_worksheet('Validation')
-        # writer.sheets['Validation'] = worksheet
-        # df.to_excel(writer,sheet_name='Validation',startrow=0 , startcol=0)
-        # another_df.to_excel(writer,sheet_name='Validation',startrow=20, startcol=0)
+        ''' Do dump to spreadsheet '''
+        with pd.ExcelWriter(file) as writer:
+            original_data.to_excel(writer, sheet_name = 'Original data')
+            for dataset in self.datasets:
+                ds = self.datasets[dataset]
+
+                ''' First section (bins, PDF, CDF) '''
+                labels1 = ['Bin limits',
+                           'Bin widths',
+                           'Bin centres',
+                           'PDF',
+                           'PDF normalised',
+                           'CDF']
+                length1 = len(labels1)
+                pd.DataFrame(labels1).to_excel(writer, sheet_name = str(dataset), startrow = 0, startcol = 0, index = False, header = False)
+
+                y_off = -1
+                for thing in ['bins',
+                              'bin_widths',
+                              'bin_centres',
+                              'PDF',
+                              'PDF_normalised',
+                              'CDF']:
+                    y_off += 1
+                    if thing == 'bins':
+                        x_off = 1
+                    else:
+                        x_off = 2
+                    data = ds[thing]
+                    pd.DataFrame(data).T.to_excel(writer, sheet_name = str(dataset), startrow = y_off, startcol = x_off, index = False, header = False)
+
+                ''' Second section (constant-like values) '''
+                labels2 = ['Sample name',
+                           'D43',
+                           'D32',
+                           'd10',
+                           'd50',
+                           'd90',
+                           'M',
+                           'S',
+                           'D43 (fit)',
+                           'D32 (fit)',
+                           'd10 (fit)',
+                           'd50 (fit)',
+                           'd90 (fit)',
+                           'phi',
+                           'Fit type (CDF if true, PDF if False)']
+                pd.DataFrame(labels2).to_excel(writer, sheet_name = str(dataset), startrow = length1 + 1, startcol = 0, index = False, header = False)
+
+                y_off = length1
+                x_off = 1
+                for thing in ['sample_name',
+                              'D43',
+                              'D32',
+                              'd10',
+                              'd50',
+                              'd90',
+                              'M',
+                              'S',
+                              'D43_fit',
+                              'D32_fit',
+                              'd10_fit',
+                              'd50_fit',
+                              'd90_fit',
+                              'phi',
+                              'fit_by_CDF']:
+                    y_off += 1
+                    data = ds[thing]
+                    pd.DataFrame([data]).to_excel(writer, sheet_name = str(dataset), startrow = y_off, startcol = x_off, index = False, header = False)
 
     ''' Dump current figure to image file '''
     def dump_figure(self, file = None):
         ''' Create filename if not specified based on defaults (JPG) '''
         if not file:
-            cwd = os.get_cwd()
+            cwd = os.getcwd()
             file_stub = self.IMAGE_DUMP_DEFAULT
-            if self._CDF:
-                plot_type = "_CDF"
-            else:
-                plot_type = "_PDF"
             file_ext = self.IMAGE_DUMP_EXT_DEFAULT
-            file = file_stub + plot_type + file_ext
+            file = file_stub + file_ext
             file = os.path.join(cwd, file)
 
         try:
@@ -588,23 +592,37 @@ class PSDAnalyser():
 
 if __name__ == "__main__":
 
+    
     '''
-    EXAMPLE 1: Load PSD data, model as Log-normal and output to spreadsheet
+    EXAMPLE 1: Load PSD data and output to spreadsheet
     '''
 
     ''' Load data from spreadsheet '''
     ps = PSDAnalyser()
-
-    file = 'C:\\Users\\hughr\\MATLAB Drive\\PSD-Analyser\\MS2000 Export.xlsx'
+    dir_ = os.path.dirname(os.getcwd())
+    file = os.path.join(dir_, 'example2.xlsx')
     ps.load_spreadsheet(file)
 
-    ''' Get estimate from linearised version '''
-    M,S = fit_lognormal_CDF_linear(x, CDF)
-    ''' ...then use estimates for nonlinear fit '''
-    print('Estimates of M,S from linearised fit: ', M,S)
-    # M,S = fit_lognormal_CDF(x, CDF, p0 = [M,S])
-    M,S = fit_lognormal_PDF(x, PDF_normalised, p0 = [M,S])
-    print('Final results for M,S from nonlinear fit: ', M,S)
+    ''' Grab first dataset and print summary of some parameters '''
+    dataset = min(ps.datasets)
+    ds = ps.datasets[dataset]
+    print('Got dataset number/name', dataset, ds['sample_name'])
+    M = ds['M']
+    S = ds['S']
+    print('Log-normal parameters, M and S:', M, S)
+
+    ''' Show some comparisons of original data and log-normal fit '''
+    d10 = ds['d10']
+    d50 = ds['d50']
+    d90 = ds['d90']
+    d10_fit = ds['d10_fit']
+    d50_fit = ds['d50_fit']
+    d90_fit = ds['d90_fit']
+    print('Quantiles from original data (d10, d50, d90):', d10, d50, d90)
+    print('Quantiles from log-normal fit (d10, d50, d90):', d10_fit, d50_fit, d90_fit)
+
+    ''' Dump all data to spreadsheet in original file format '''
+    ps.export_to_spreadsheet()
 
 
 
@@ -612,21 +630,45 @@ if __name__ == "__main__":
     EXAMPLE 2: Load PSD data, plot CDF and dump to JPG image
     '''
 
-    ''' Load data from spreadsheet '''
-    ps.load_spreadsheet(file)
+    # ''' Load data from spreadsheet '''
+    # ps = PSDAnalyser()
+    # dir_ = os.path.dirname(os.getcwd())
+    # file = os.path.join(dir_, 'example3.xlsx')
+    # ps.load_spreadsheet(file)
 
-    ''' Select dataset and fit to log-normal with pre-fitting '''
+    # ''' Select dataset and fit to log-normal with pre-fitting '''
+    # dataset = min(ps.datasets)
+    # ds = ps.datasets[dataset]
+    # print('Got dataset number/name', dataset, ds['sample_name'])
+    # M = ds['M']
+    # S = ds['S']
+    # x = ds['bin_centres']
+    # C = ds['CDF']
+    # P = ds['PDF_normalised']
 
-    ''' Set up plotting; this is the simplest possible MPL plot axes '''
-    ax = mpl.pyplot.axes()
+    # ''' Filter out invali data '''
+    # x_,C_,P_ = get_valids(x,C,P)
 
-    ''' Plot original and log-normal fitted data; choose either PDF or CDF '''
-    plot_CDF(x, CDF, ax, (M,S),
-             xlabel = self.XLABEL_DEFAULT,
-             ylabel = self.YLABEL_DEFAULT_CDF)
-    plot_PDF(x, PDF_normalised, ax, (M,S),
-             xlabel = self.XLABEL_DEFAULT,
-             ylabel = self.YLABEL_DEFAULT_PDF)
+    # ''' Set up plotting: link to existing plot axes in our PSDAnalyser '''
+    # ax = ps.ax
+
+    # ''' Plot CDF or PDF (comment lines out as you wish) '''
+    # # plot_CDF(x_, C_, ax = ax, fit_data = (M,S))
+    # plot_PDF(x_, P_, ax = ax, fit_data = (M,S))
+
+    # # ''' Change fit type from CDF (default) to PDF and replot '''
+    # # ax.clear()
+    # # ps.toggle_fit_mode(dataset)
+    # # M = ds['M']
+    # # S = ds['S']
+    # # x = ds['bin_centres']
+    # # C = ds['CDF']
+    # # P = ds['PDF_normalised']
+    # # x_,C_,P_ = get_valids(x,C,P)
+    # # plot_PDF(x_, P_, ax = ax, fit_data = (M,S))
+
+    # ''' Dump to image file (with specified file name) '''
+    # ps.dump_figure(file = 'example2_plot')
 
 
 
@@ -634,7 +676,28 @@ if __name__ == "__main__":
     EXAMPLE 3: Load PSD data, model via product difference algorithm
     '''
 
-    ''' Load data from spreadsheet '''
-    ps.load_spreadsheet(file)
+    # ''' Load data from spreadsheet '''
+    # ps = PSDAnalyser()
+    # dir_ = os.path.dirname(os.getcwd())
+    # file = os.path.join(dir_, 'example1.csv')
+    # ps.load_spreadsheet(file)
 
-
+    # ''' Get dataset then get distribution with N = 5 using product difference algorithm (PDA) '''
+    # dataset = min(ps.datasets)
+    # ds = ps.datasets[dataset]
+    # print('Got dataset number/name', dataset, ds['sample_name'])
+    # x = ds['bin_centres']
+    # C = ds['CDF']
+    # P = ds['PDF']
+    # x_N, P_N = product_difference_algorithm((x,P), N = 5)
+    
+    # ''' Calculate and compare some statistical moments of original and PDA-derived distributions '''
+    # m3 = moment(x, P, 3)
+    # m4 = moment(x_N, P_N, 4)
+    # m3_N = moment(x, P, 3)
+    # m4_N = moment(x_N, P_N, 4)
+    
+    # print('Third moment for original and PDA-derived distributions:\n', m3, m3_N)
+    # print(' (Relative error:', np.abs((100*(m3-m3_N))/m3), '%)')
+    # print('Fourth moment for original and PDA-derived distributions:\n', m4, m4_N)
+    # print(' (Relative error:', np.abs((100*(m4-m4_N))/m4), '%)')

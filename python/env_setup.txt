@@ -1,0 +1,21 @@
+:: For Anaconda/Conda installations
+conda create --name <name>
+conda activate <name>
+conda install pip
+pip install matplotlib
+pip install pandas
+pip install scipy
+pip install openpyxl
+pip install pyinstaller
+pyinstaller --onefile --noconsole PSD-Analyser.py
+
+:: For venv environments
+python -m venv <name>
+:: Navigate to <name>\Scripts folder, then...
+activate.bat
+pip install matplotlib
+pip install pandas
+pip install scipy
+pip install openpyxl
+pip install pyinstaller
+pyinstaller --onefile --noconsole PSD-Analyser.py
