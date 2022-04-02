@@ -1,21 +1,22 @@
 ## **PSD Analyser: A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation**
 
-### Hugh Patrick Rice, January 2021 onwards
+### Hugh Patrick Rice, 2022
 
 Zenodo link here
 
 ## Quick-start guide
 
 **Run the standalone executable (currently Windows only)**
-- Go to the *Releases* on the right of the right of the page
+- Go to the *Releases* on the right of the page
 - Download the executable file (ending *.exe*) and any of the spreadsheet example files from the main page
 - Once downloaded, double-click the executable file and it will run
 
 **Run the code directly**
 - Clone the repository or download files individually
-- (Python) Import into your Python environment or import into MATLAB
-  - Ensure all the necessary packages listed in the *Dependencies* document are installed in your environment
+- (Python) Import into your Python environment
+  - Ensure all the necessary libraries (see imports in *PSD-Analyser* an *psd_analyser*) are installed in your environment
   - Instructions for creating a miminal environment in which *PSDAnalyser* can be run is provided in *env_setup.txt*, using the *Anaconda* distribution of Python (details [here](https://www.anaconda.com/))
+  - There are several examples given in the *psd_analyser* script to demonstrate functionality, specifically: loading and saving data, plotting PSDs, fitting PSDs to log-normal distributions; and reducing them to *N* components using the product difference algorithm (PDA); comment out the code as appropriate
 - (MATLAB) Import each function and class individually
   - Run the *import_all.m* script in MATLAB and all the necessary functions and classes will be installed (**to be completed**)
 
@@ -61,7 +62,7 @@ The app was created using the Python library *pyinstaller*, and you can do the s
 pip install pyinstaller
 ```
 
-2. Then navigate to the directory containing your Python scripts (*i.e.* *PSDAnalyser.py* and *psd_analyser.py*) and create the executables, where: the ```noconsole``` option creates an executable without a console window (this option can be removed if you wish to use the console window for debugging); and the ```onefile``` option creates a single executable file (if this option is removed, the resulting executable may be smaller but a number of directories will be created alongside the executable)
+2. Then navigate to the directory containing your Python scripts (*i.e.* *PSD-Analyser.py* and *psd_analyser.py*) and create the executables, where: the ```noconsole``` option creates an executable without a console window (this option can be removed if you wish to use the console window for debugging); and the ```onefile``` option creates a single executable file (if this option is removed, the resulting executable may be smaller but a number of directories will be created alongside the executable)
 
 ```
 pyinstaller --onefile --noconsole PSD-Analyser.py
