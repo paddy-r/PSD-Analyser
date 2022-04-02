@@ -15,7 +15,7 @@ Zenodo link here
 - Clone the repository or download files individually
 - (Python) Import into your Python environment
   - Ensure all the necessary libraries (see imports in *PSD-Analyser* an *psd_analyser*) are installed in your environment
-  - Instructions for creating a miminal environment in which *PSDAnalyser* can be run is provided in *env_setup.txt*, using the *Anaconda* distribution of Python (details [here](https://www.anaconda.com/))
+  - Instructions for creating a miminal environment in which *PSDAnalyser* can be run is provided in *env_setup.txt*, using the *Anaconda* distribution of Python (details [here](https://www.anaconda.com/)) or the standard Python environment management library *venv*
   - There are several examples given in the *psd_analyser* script to demonstrate functionality, specifically: loading and saving data, plotting PSDs, fitting PSDs to log-normal distributions; and reducing them to *N* components using the product difference algorithm (PDA); comment out the code as appropriate
 - (MATLAB) Import each function and class individually
   - Run the *import_all.m* script in MATLAB and all the necessary functions and classes will be installed (**to be completed**)
