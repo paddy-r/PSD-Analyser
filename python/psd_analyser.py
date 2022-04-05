@@ -58,11 +58,11 @@ def fit_lognormal_CDF_linear(d, C):
     # print('Linear regression R = ', R)
     return M,S
 
-def mu(M, S):
+def get_mu(M, S):
     _mu = np.exp(M + S**2/2.0)
     return _mu
 
-def sigma(M, S):
+def get_sigma(M, S):
     _sigma = np.sqrt(np.exp(S**2 + 2.0*M)*(np.exp(S**2)-1.0))
     return _sigma
 
@@ -183,8 +183,11 @@ def load_excel(file, *args, **kwargs):
     return loaded_data
 
 ''' Plot CDF, optionally with fit curve '''
-def plot_CDF(x, CDF, ax, fit_data = None, xlabel = None, ylabel = None):
-    ax.plot(x, CDF, 'kx')
+def plot_CDF(x, CDF, ax, fit_data = None, log_mode = False, xlabel = None, ylabel = None):
+    if log_mode:
+        ax.semilogx(x, CDF, 'kx')
+    else:
+        ax.plot(x, CDF, 'kx')
     if fit_data:
         M = fit_data[0]
         S = fit_data[1]
@@ -194,15 +197,21 @@ def plot_CDF(x, CDF, ax, fit_data = None, xlabel = None, ylabel = None):
         spread = 0
         x_fit = np.linspace(min(x)-0.05*spread, max(x)+0.05*spread)
         y_fit = lognormal_CDF(x_fit, M, S, called_by = 'plot_CDF')
-        ax.plot(x_fit, y_fit, 'k--')
+        if log_mode:
+            ax.semilogx(x_fit, y_fit, 'k--')
+        else:
+            ax.plot(x_fit, y_fit, 'k--')
     if xlabel:
         ax.set_xlabel(xlabel)
     if ylabel:
         ax.set_ylabel(ylabel)
 
 ''' Plot PDF, optionally with fit curve '''
-def plot_PDF(x, PDF, ax, fit_data = None, xlabel = None, ylabel = None):
-    ax.plot(x, PDF, 'kx')
+def plot_PDF(x, PDF, ax, fit_data = None, log_mode = False, xlabel = None, ylabel = None):
+    if log_mode:
+        ax.semilogx(x, PDF, 'kx')
+    else:
+        ax.plot(x, PDF, 'kx')
     if fit_data:
         M = fit_data[0]
         S = fit_data[1]
@@ -212,7 +221,10 @@ def plot_PDF(x, PDF, ax, fit_data = None, xlabel = None, ylabel = None):
         spread = 0
         x_fit = np.linspace(min(x)-0.05*spread, max(x)+0.05*spread)
         y_fit = lognormal_PDF(x_fit, M, S)
-        ax.plot(x_fit, y_fit, 'k--')
+        if log_mode:
+            ax.semilogx(x_fit, y_fit, 'k--')
+        else:
+            ax.plot(x_fit, y_fit, 'k--')
     if xlabel:
         ax.set_xlabel(xlabel)
     if ylabel:
@@ -413,6 +425,10 @@ class PSDAnalyser():
         d90_fit = lognormal_quantile(M,S,90)
         phi = packing_fraction(M,S)
 
+        mu = get_mu(M,S)
+        sigma = get_sigma(M,S)
+        COV = sigma/mu
+
         ''' Populate dataset '''
         data_list = ['sample_name',
                      'D43',
@@ -434,6 +450,9 @@ class PSDAnalyser():
                      'd50_fit',
                      'd90_fit',
                      'phi',
+                     'mu',
+                     'sigma',
+                     'COV',
                      'fit_by_CDF']
 
         ''' Alternate method for populating "dataset" dict: by "eval",
@@ -546,6 +565,9 @@ class PSDAnalyser():
                            'd50 (fit)',
                            'd90 (fit)',
                            'phi',
+                           'mu',
+                           'sigma',
+                           'COV',
                            'Fit type (CDF if true, PDF if False)']
                 pd.DataFrame(labels2).to_excel(writer, sheet_name = str(dataset), startrow = length1 + 1, startcol = 0, index = False, header = False)
 
@@ -565,6 +587,9 @@ class PSDAnalyser():
                               'd50_fit',
                               'd90_fit',
                               'phi',
+                              'mu',
+                              'sigma',
+                              'COV',
                               'fit_by_CDF']:
                     y_off += 1
                     data = ds[thing]

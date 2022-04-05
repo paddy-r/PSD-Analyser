@@ -387,10 +387,12 @@ class TkApp(tk.Tk):
         ''' Get mode-specific data to plot '''
         if self._plot_mode:
             psda.plot_CDF(x, C, self.ax, fit_data = fit_data,
+                          log_mode = self._log_mode,
                           xlabel = self.XLABEL_DEFAULT,
                           ylabel = self.YLABEL_DEFAULT_CDF)
         else:
             psda.plot_PDF(x, P, self.ax, fit_data = fit_data,
+                          log_mode = self._log_mode,
                           xlabel = self.XLABEL_DEFAULT,
                           ylabel = self.YLABEL_DEFAULT_PDF)
 
