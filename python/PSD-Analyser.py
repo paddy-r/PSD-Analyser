@@ -17,9 +17,12 @@ class TkApp(tk.Tk):
         self.args = args
         self.kwargs = kwargs
 
-        ''' Fit and plot preferences; both default to CDF, PDF otherwise '''
+        ''' Fit and plot preferences
+                - Default to CDF, PDF otherwise
+                - Default to linear x scale, log scale otherwise '''
         self._plot_mode = True
         # self._fit_mode = True
+        self._log_mode = False
 
         ''' All GUI set-up '''
         self.title("PSD-Analyser")
@@ -97,6 +100,12 @@ class TkApp(tk.Tk):
         self.button_plot_CDF = tk.Button(self.bottomright,
                                          text = 'Plot CDF',
                                          command = self.plot_mode_CDF)
+        self.button_plot_log = tk.Button(self.bottomright,
+                                         text = 'Plot log scale',
+                                         command = self.plot_mode_log)
+        self.button_plot_linear = tk.Button(self.bottomright,
+                                         text = 'Plot linear scale',
+                                         command = self.plot_mode_linear)
 
         self.button_previous.grid(row = 0, column = 0, sticky = 'nsew')
         self.button_next.grid(row = 0, column = 1, sticky = 'nsew')
@@ -104,10 +113,13 @@ class TkApp(tk.Tk):
         self.button_fit_CDF.grid(row = 1, column = 1, sticky = 'nsew')
         self.button_plot_PDF.grid(row = 2, column = 0, sticky = 'nsew')
         self.button_plot_CDF.grid(row = 2, column = 1, sticky = 'nsew')
+        self.button_plot_log.grid(row = 3, column = 0, sticky = 'nsew')
+        self.button_plot_linear.grid(row = 3, column = 1, sticky = 'nsew')
 
         self.bottomright.grid_rowconfigure(0, weight = 1)
         self.bottomright.grid_rowconfigure(1, weight = 1)
         self.bottomright.grid_rowconfigure(2, weight = 1)
+        self.bottomright.grid_rowconfigure(3, weight = 1)
         self.bottomright.grid_columnconfigure(0, weight = 1)
         self.bottomright.grid_columnconfigure(1, weight = 1)
 
@@ -301,6 +313,36 @@ class TkApp(tk.Tk):
             print('Already in PDF plot mode; aborting...')
             return
         self._plot_mode = False
+
+        ''' Update other views '''
+        self.update_plot()
+        self.update_info_frame()
+
+    def plot_mode_log(self):
+        if not self.manager._loaded:
+            print('Cannot change plot mode: no file loaded')
+            return
+
+        print('Plotting in log mode...')
+        if self._log_mode:
+            print('Already in log plot mode; aborting...')
+            return
+        self._log_mode = True
+
+        ''' Update other views '''
+        self.update_plot()
+        self.update_info_frame()
+
+    def plot_mode_linear(self):
+        if not self.manager._loaded:
+            print('Cannot change plot mode: no file loaded')
+            return
+
+        print('Plotting in log mode...')
+        if not self._log_mode:
+            print('Already in linear plot mode; aborting...')
+            return
+        self._log_mode = False
 
         ''' Update other views '''
         self.update_plot()
