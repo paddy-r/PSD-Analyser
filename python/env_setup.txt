@@ -11,7 +11,7 @@ pyinstaller --onefile --noconsole PSD-Analyser.py
 
 :: For venv environments
 python -m venv <name>
-:: Navigate to <name>\Scripts folder, then...
+:: Navigate to <name>\Scripts folder (or create full path to file), then...
 activate.bat
 pip install matplotlib
 pip install pandas
