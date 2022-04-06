@@ -45,6 +45,7 @@ The app (*PSD-Analyser*) creates a user interface for loading, interacting with 
   - *Forward and back arrows* If the file loaded contains multiple PSD datasets, these arrow buttons scroll through them; the dataset number is shown in the information panel (bottom left)
   - *Fit to PDF/CDF buttons* These buttons toggle between the two methods for fitting of a log-normal distribution to the dataset displayed; see code for more information, and note that each can give different results for the log-normal fit parameters
   - *Plot PDF/CDF buttons* These buttons toggle between plotting the loaded and log-normal fitted data in CDF and PDF form, depending on the user's preference
+  - *Plot log/linear buttons* Toggle between logarithmic and linear scale on the *x*-axis (*i.e.* particle size)
 
 **Using *PSD Analyser* in code form (Python)**
 
