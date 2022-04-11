@@ -262,7 +262,7 @@ class PSDAnalyser():
         self.FIT_MODE_PREFIT_DEFAULT = True
         self.PLOT_MODE_DEFAULT = True
 
-        self.COLUMN_DICT_DEFAULT = {}
+        # self.COLUMN_DICT_DEFAULT = {}
 
         ''' Set up figure and plot axes '''
         if ax:
@@ -295,10 +295,10 @@ class PSDAnalyser():
         end_text = 'Operator Notes'
         self.start_column_index, self.start_column = [(i,el) for i,el in enumerate(ld) if start_text in el][0]
         self.end_column_index, self.end_column = [(i,el) for i,el in enumerate(ld) if end_text in el][0]
-        self.start_rows = [0]
-        for i,el in enumerate(ld[self.start_column]):
-            if type(el) == str:
-                self.start_rows.append(i)
+        # self.start_rows = [0]
+        # for i,el in enumerate(ld[self.start_column]):
+        #     if type(el) == str:
+        #         self.start_rows.append(i)
 
         ''' Create dict containing bins and sizing data rows corresponding to them '''
         self.bin_groups = {0:[]}
@@ -353,8 +353,8 @@ class PSDAnalyser():
 
         ''' Create dictionary for output '''
         dataset = {}
-        if not column_dict:
-            column_dict = self.COLUMN_DICT_DEFAULT
+        # if not column_dict:
+        #     column_dict = self.COLUMN_DICT_DEFAULT
         ld = self.loaded_data
 
         ''' Get whole rows '''
