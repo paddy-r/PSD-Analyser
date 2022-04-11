@@ -704,7 +704,7 @@ if __name__ == "__main__":
     ''' Load data from spreadsheet '''
     ps = PSDAnalyser()
     dir_ = os.path.dirname(os.getcwd())
-    file = os.path.join(dir_, 'example1.csv')
+    file = os.path.join(dir_, 'example2.xlsx')
     ps.load_spreadsheet(file)
 
     ''' Get dataset then get distribution with N = 5 using product difference algorithm (PDA) '''
