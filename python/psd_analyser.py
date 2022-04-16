@@ -36,12 +36,16 @@ def lognormal_PDF(x, M, S):
 
 ''' To fit to lognormal using normalised PDF '''
 def fit_lognormal_PDF(d, P_norm, p0 = None):
+    if not p0:
+        p0 = np.random.random(2)
     results = curve_fit(lognormal_PDF, d, P_norm, p0)
     M,S = results[0]
     return M,S
 
 ''' To fit to lognormal using CDF '''
 def fit_lognormal_CDF(d, C, p0 = None):
+    if not p0:
+        p0 = np.random.random(2)
     results = curve_fit(lognormal_CDF, d, C, p0)
     M,S = results[0]
     return M,S
@@ -75,12 +79,12 @@ def lognormal_quantile(M, S, p):
 ''' Calculate nth or (n/m)th moment of distribution
     f = frequencies at discrete values of x
     m = 0 by default, i.e. denominator is unity '''
-def moment(x, f, n, m = 0):
-    M1 = sum([(a**n) * b for a,b in zip(x,f)])
+def moment(x, P, n, m = 0):
+    M1 = sum([(a**n) * b for a,b in zip(x,P)])
     if m == 0:
         M2 = 1.0
     else:
-        M2 = sum([(a**m) * b for a,b in zip(x,f)])
+        M2 = sum([(a**m) * b for a,b in zip(x,P)])
     result = M1/M2
     return result
 
@@ -167,12 +171,12 @@ def product_difference_algorithm(PSD, N = None):
     PSD_new = (x_new,P_new)
     return PSD_new
 
-''' Estimate packing fraction of particle species;
+''' To estimate packing fraction of particle species;
     assumes non-interacting, spherical particles with lognormal sizes
     - Farr (2013), DOI: https://doi.org/10.1016/j.powtec.2013.04.009 '''
 def packing_fraction(M, S):
-    pf = 1.0 - 0.57*np.exp(-S) + 0.2135*np.exp(-0.57*S/0.2135) + 0.0019*(np.cos(2.0*np.pi*(1 - np.exp(-0.75*S**(0.7) - 0.025*S**4))) - 1)
-    return pf
+    _phi = 1.0 - 0.57*np.exp(-S) + 0.2135*np.exp(-0.57*S/0.2135) + 0.0019*(np.cos(2.0*np.pi*(1 - np.exp(-0.75*S**(0.7) - 0.025*S**4))) - 1)
+    return _phi
 
 def load_csv(file, *args, **kwargs):
     loaded_data = pd.read_csv(file, *args, **kwargs)
@@ -206,7 +210,7 @@ def plot_CDF(x, CDF, ax, fit_data = None, log_mode = False, xlabel = None, ylabe
     if ylabel:
         ax.set_ylabel(ylabel)
 
-''' Plot PDF, optionally with fit curve '''
+''' Plot (normalised) PDF, optionally with fit curve '''
 def plot_PDF(x, PDF, ax, fit_data = None, log_mode = False, xlabel = None, ylabel = None):
     if log_mode:
         ax.semilogx(x, PDF, 'kx')
@@ -230,6 +234,7 @@ def plot_PDF(x, PDF, ax, fit_data = None, log_mode = False, xlabel = None, ylabe
     if ylabel:
         ax.set_ylabel(ylabel)
 
+''' To grab non-zero parts of PSD '''
 def get_valids(x_raw, C_raw, P_raw):
     valids = [i for i,el in enumerate(P_raw) if (el > 0.0) and C_raw[i] < 1.0]
     # print('nonzeros: \n', valids)
@@ -312,9 +317,10 @@ class PSDAnalyser():
         bin_list.append(len(ld.index) + 1)
         for i,group in enumerate(bin_list[:-1]):
             for row in range(group + 1, bin_list[i+1] - 1):
-                if type(ld.loc[row][0]) == float:
+                item = ld.loc[row][0]
+                if type(item) == float:
                     ''' Exclude if "nan", i.e. empty float '''
-                    if np.isnan(ld.loc[row][0]):
+                    if np.isnan(item):
                         continue
                 self.bin_groups[group].append(row)
 
@@ -405,7 +411,7 @@ class PSDAnalyser():
             # print('x,c:\n',x,C)
             p0 = fit_lognormal_CDF_linear(x, C)
         else:
-            p0 = None
+            p0 = np.random.random(2)
 
         if (fit_mode is None) or (fit_mode not in (True,False)):
             # print('Fit mode not given; defaulting')
@@ -479,7 +485,7 @@ class PSDAnalyser():
         if prefit:
             p0 = fit_lognormal_CDF_linear(x, C)
         else:
-            p0 = None
+            p0 = np.random.random(2)
 
         ''' Get new fit results and calculate new derived values'''
         if ds['fit_by_CDF'] == True:
@@ -497,6 +503,9 @@ class PSDAnalyser():
         d50_fit = lognormal_quantile(M,S,50)
         d90_fit = lognormal_quantile(M,S,90)
         phi = packing_fraction(M,S)
+        mu = get_mu(M,S)
+        sigma = get_sigma(M,S)
+        COV = sigma/mu
 
         ''' Update dataset with new values from fit '''
         ds['M'] = M
@@ -507,6 +516,9 @@ class PSDAnalyser():
         ds['d50_fit'] = d50_fit
         ds['d90_fit'] = d90_fit
         ds['phi'] = phi
+        ds['mu'] = mu
+        ds['sigma'] = sigma
+        ds['COV'] = COV
 
     def export_to_spreadsheet(self, file = None):
         print('Exporting all original and processed PSD data; in original format unless specified')
