@@ -195,11 +195,12 @@ def plot_CDF(x, CDF, ax, fit_data = None, log_mode = False, xlabel = None, ylabe
     if fit_data:
         M = fit_data[0]
         S = fit_data[1]
-        # spread = max(x) - min(x)
         ''' Setting to zero as otherwise borks plotting,
             i.e. log(-number) if fit_data specified '''
-        spread = 0
-        x_fit = np.linspace(min(x)-0.05*spread, max(x)+0.05*spread)
+        # spread = max(x) - min(x)
+        # spread = 0
+        # x_fit = np.linspace(min(x)-0.05*spread, max(x)+0.05*spread)
+        x_fit = np.logspace(np.log10(min(x)), np.log10(max(x)))
         y_fit = lognormal_CDF(x_fit, M, S, called_by = 'plot_CDF')
         if log_mode:
             ax.semilogx(x_fit, y_fit, 'k--')
@@ -219,11 +220,12 @@ def plot_PDF(x, PDF, ax, fit_data = None, log_mode = False, xlabel = None, ylabe
     if fit_data:
         M = fit_data[0]
         S = fit_data[1]
-        # spread = max(x) - min(x)
         ''' Setting to zero as otherwise borks plotting,
             i.e. log(-number) if fit_data specified '''
-        spread = 0
-        x_fit = np.linspace(min(x)-0.05*spread, max(x)+0.05*spread)
+        # spread = max(x) - min(x)
+        # spread = 0
+        # x_fit = np.linspace(min(x)-0.05*spread, max(x)+0.05*spread)
+        x_fit = np.logspace(np.log10(min(x)), np.log10(max(x)))
         y_fit = lognormal_PDF(x_fit, M, S)
         if log_mode:
             ax.semilogx(x_fit, y_fit, 'k--')

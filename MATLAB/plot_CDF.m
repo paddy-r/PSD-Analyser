@@ -38,7 +38,7 @@ function plot_PDF(x,C,varargin)
         M = fit_data(1)
         S = fit_data(2)
         if log_mode == true
-            x_plot = linspace(min(x),max(x),1000);
+            x_plot = logspace(log10(min(x)),log10(max(x)),100);
             y_cdf = lognormal_CDF(x_plot,M,S);
             semilogx(x_plot,y_cdf,'black--');
         else
