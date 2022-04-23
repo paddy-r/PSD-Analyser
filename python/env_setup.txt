@@ -8,6 +8,8 @@ pip install scipy
 pip install openpyxl
 pip install pyinstaller
 pyinstaller --onefile --noconsole PSD-Analyser.py
+:: or
+:: pyinstaller -F -w PSD-Analyser.py
 
 :: For venv environments
 python -m venv <name>
@@ -19,3 +21,5 @@ pip install scipy
 pip install openpyxl
 pip install pyinstaller
 pyinstaller --onefile --noconsole PSD-Analyser.py
+:: or
+:: pyinstaller -F -w PSD-Analyser.py
