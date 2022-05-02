@@ -211,7 +211,7 @@ class TkApp(tk.Tk):
         if figure_file:
             print('Figure export file full path: ', figure_file)
         else:
-            print('No figure export file selected; returning None')
+            print('No figure export file selected; returning')
             return
 
         self.manager.dump_figure(figure_file)

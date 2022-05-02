@@ -1,6 +1,13 @@
 % Plot CDF, optionally with fit curve
-
-function plot_PDF(x,C,varargin)
+% Args (required):
+%   x           particle diameter (or x value)
+%   C           cumulative distribution function, PDF
+% Args (optional):
+%   fit_data    M,S (lognormal parameters) for plotting fit curve
+%   log_mode    if false (default) print log-x scale; linear if true
+%   x_label     label text for x axis
+%   y_label     label text for y axis
+function current_figure = plot_PDF(x,C,varargin)
     fit_data_default = [];
     log_mode_default = false;
     x_label_default = "Particle diameter (\mum)";
@@ -56,4 +63,6 @@ function plot_PDF(x,C,varargin)
     end
     hold off
     
+    % Grab figure handle to be returned
+    current_figure = gcf
 end
