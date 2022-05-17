@@ -84,7 +84,7 @@ Please either raise an issue here at Github or contact me directly.
 ## How to cite this repository
 
 - Copy or click the Zenodo link above, which has a corresponding DOI attached, and construct your own citation that contains it
-- Depending on your style, your citation should look something like this: Rice HP (2022), *PSD Analyser: A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation*, Github code repository, DOI: 10.5281/zenodo.6408352
+- Depending on your style, your citation should look something like this: Rice HP (2022), *PSD Analyser: A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation*, Github code repository, DOI: <latest DOI, see above>
 - If you're unsure, please contact me
 
 ## References and notes
