@@ -636,32 +636,32 @@ if __name__ == "__main__":
     EXAMPLE 1: Load PSD data and output to spreadsheet
     '''
 
-    # ''' Load data from spreadsheet '''
-    # ps = PSDAnalyser()
-    # dir_ = os.path.dirname(os.getcwd())
-    # file = os.path.join(dir_, 'example2.xlsx')
-    # ps.load_spreadsheet(file)
+    ''' Load data from spreadsheet '''
+    ps = PSDAnalyser()
+    dir_ = os.path.dirname(os.getcwd())
+    file = os.path.join(dir_, 'example2.xlsx')
+    ps.load_spreadsheet(file)
 
-    # ''' Grab first dataset and print summary of some parameters '''
-    # dataset = min(ps.datasets)
-    # ds = ps.datasets[dataset]
-    # print('Got dataset number/name', dataset, ds['sample_name'])
-    # M = ds['M']
-    # S = ds['S']
-    # print('Log-normal parameters, M and S:', M, S)
+    ''' Grab first dataset and print summary of some parameters '''
+    dataset = min(ps.datasets)
+    ds = ps.datasets[dataset]
+    print('Got dataset number/name', dataset, ds['sample_name'])
+    M = ds['M']
+    S = ds['S']
+    print('Log-normal parameters, M and S:', M, S)
 
-    # ''' Show some comparisons of original data and log-normal fit '''
-    # d10 = ds['d10']
-    # d50 = ds['d50']
-    # d90 = ds['d90']
-    # d10_fit = ds['d10_fit']
-    # d50_fit = ds['d50_fit']
-    # d90_fit = ds['d90_fit']
-    # print('Quantiles from original data (d10, d50, d90):', d10, d50, d90)
-    # print('Quantiles from log-normal fit (d10, d50, d90):', d10_fit, d50_fit, d90_fit)
+    ''' Show some comparisons of original data and log-normal fit '''
+    d10 = ds['d10']
+    d50 = ds['d50']
+    d90 = ds['d90']
+    d10_fit = ds['d10_fit']
+    d50_fit = ds['d50_fit']
+    d90_fit = ds['d90_fit']
+    print('Quantiles from original data (d10, d50, d90):', d10, d50, d90)
+    print('Quantiles from log-normal fit (d10, d50, d90):', d10_fit, d50_fit, d90_fit)
 
-    # ''' Dump all data to spreadsheet in original file format '''
-    # ps.export_to_spreadsheet()
+    ''' Dump all data to spreadsheet in original file format '''
+    ps.export_to_spreadsheet()
 
 
 
@@ -715,28 +715,28 @@ if __name__ == "__main__":
     EXAMPLE 3: Load PSD data, model via product difference algorithm
     '''
 
-    ''' Load data from spreadsheet '''
-    ps = PSDAnalyser()
-    dir_ = os.path.dirname(os.getcwd())
-    file = os.path.join(dir_, 'example2.xlsx')
-    ps.load_spreadsheet(file)
+    # ''' Load data from spreadsheet '''
+    # ps = PSDAnalyser()
+    # dir_ = os.path.dirname(os.getcwd())
+    # file = os.path.join(dir_, 'example2.xlsx')
+    # ps.load_spreadsheet(file)
 
-    ''' Get dataset then get distribution with N = 5 using product difference algorithm (PDA) '''
-    dataset = min(ps.datasets)
-    ds = ps.datasets[dataset]
-    print('Got dataset number/name', dataset, ds['sample_name'])
-    x = ds['bin_centres']
-    C = ds['CDF']
-    P = ds['PDF']
-    x_N, P_N = product_difference_algorithm((x,P), N = 5)
+    # ''' Get dataset then get distribution with N = 5 using product difference algorithm (PDA) '''
+    # dataset = min(ps.datasets)
+    # ds = ps.datasets[dataset]
+    # print('Got dataset number/name', dataset, ds['sample_name'])
+    # x = ds['bin_centres']
+    # C = ds['CDF']
+    # P = ds['PDF']
+    # x_N, P_N = product_difference_algorithm((x,P), N = 5)
     
-    ''' Calculate and compare some statistical moments of original and PDA-derived distributions '''
-    m3 = moment(x, P, 3)
-    m4 = moment(x_N, P_N, 4)
-    m3_N = moment(x, P, 3)
-    m4_N = moment(x_N, P_N, 4)
+    # ''' Calculate and compare some statistical moments of original and PDA-derived distributions '''
+    # m3 = moment(x, P, 3)
+    # m4 = moment(x_N, P_N, 4)
+    # m3_N = moment(x, P, 3)
+    # m4_N = moment(x_N, P_N, 4)
     
-    print('Third moment for original and PDA-derived distributions:\n', m3, m3_N)
-    print(' (Relative error:', np.abs((100*(m3-m3_N))/m3), '%)')
-    print('Fourth moment for original and PDA-derived distributions:\n', m4, m4_N)
-    print(' (Relative error:', np.abs((100*(m4-m4_N))/m4), '%)')
+    # print('Third moment for original and PDA-derived distributions:\n', m3, m3_N)
+    # print(' (Relative error:', np.abs((100*(m3-m3_N))/m3), '%)')
+    # print('Fourth moment for original and PDA-derived distributions:\n', m4, m4_N)
+    # print(' (Relative error:', np.abs((100*(m4-m4_N))/m4), '%)')
