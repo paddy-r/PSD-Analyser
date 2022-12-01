@@ -16,6 +16,10 @@ from scipy.optimize import curve_fit
 import numpy as np
 # from numpy import exp, sqrt, log, pi, linspace, diff, zeros, diag, cos, diff
 from numpy.linalg import eig
+import openpyxl
+
+# import sys
+# sys.path.append(os.path.join(os.path.dirname(__file__)))
 
 
 

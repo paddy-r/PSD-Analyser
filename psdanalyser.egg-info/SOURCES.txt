@@ -1,0 +1,11 @@
+LICENSE
+README.md
+setup.py
+psdanalyser/PSDA_app.py
+psdanalyser/__init__.py
+psdanalyser/psd_analyser.py
+psdanalyser.egg-info/.MATLABDriveTag
+psdanalyser.egg-info/PKG-INFO
+psdanalyser.egg-info/SOURCES.txt
+psdanalyser.egg-info/dependency_links.txt
+psdanalyser.egg-info/top_level.txt
