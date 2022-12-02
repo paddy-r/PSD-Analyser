@@ -57,7 +57,7 @@ dependencies:
   - munkres=1.1.4=pyh9f0ad1d_0
   - numpy=1.23.5=py311h95d790f_0
   - openjpeg=2.5.0=hc9384bd_1
-  - openpyxl=3.0.10=py311ha68e1ae_2
+  - openpyxl=3.0.9=pyhd8ed1ab_0
   - openssl=1.1.1s=hcfcfb64_0
   - packaging=21.3=pyhd8ed1ab_0
   - pandas=1.5.2=py311hf63dbb6_0
@@ -91,4 +91,11 @@ dependencies:
   - xorg-libxdmcp=1.1.3=hcd874cb_0
   - xz=5.2.6=h8d14728_0
   - zstd=1.5.2=h7755175_4
+  - pip:
+    - altgraph==0.17.3
+    - future==0.18.2
+    - pefile==2022.5.30
+    - pyinstaller==5.6.2
+    - pyinstaller-hooks-contrib==2022.13
+    - pywin32-ctypes==0.2.0
 prefix: C:\Users\prehr\Anaconda3\envs\psdanalyser
