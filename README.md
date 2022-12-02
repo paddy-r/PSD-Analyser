@@ -8,11 +8,11 @@
 
 **Run the standalone executable (currently Windows only)**
 - Go to the *Releases* on the right of the page
-- Download the executable file (ending *.exe*) and any of the spreadsheet example files from the main page
-- Once downloaded, double-click the executable file and it will run
+- Download the executable file (ending *.exe*) and any of the spreadsheet example files from the main page if you wish to try loading them
+- Once downloaded, double-click the executable file and it will run, then try loading any of the example spreadsheets to view some PSD data
 
 **Run the code directly**
-- Clone the repository or download files individually
+- Clone the repository or download files individually as you wish
 - (Python) Import into your Python environment
   - Ensure all the necessary libraries (see imports in *PSD-Analyser* an *psd_analyser*) are installed in your environment
   - Instructions for creating a miminal environment in which *PSDAnalyser* can be run is provided in *env_setup.txt*, using the *Anaconda* distribution of Python (details [here](https://www.anaconda.com/)) or the standard Python environment management library *venv*
@@ -32,7 +32,7 @@ The app (*PSD-Analyser*) creates a user interface for loading, interacting with 
 2. Log-normal modelling of PSDs, where fitting can be performed to eithe the cumulative distribution function (CDF) or probability density function (PDF) of the PSD data
 3. Application to PSDs of the product difference algorithm (PDA) to PSDs, which computes the discrete distribution of *N* elements with the same statistical moments (mean, etc.)
 4. (With standalone Python app) Visualisation of results in an interactive viewer, allowing output of figures in various formats (currently Python only)
-5. Saving PSD data, with derived log-normal models, into a single spreadsheet for further analysis
+5. Saving PSD data, with fitted log-normal parameters, into a single spreadsheet for further analysis
 
 **Running the *PSD Analyser* standalone app (Python)**
 
@@ -66,7 +66,7 @@ pip install pyinstaller
 2. Then navigate to the directory containing your Python scripts (*i.e.* *PSD-Analyser.py* and *psd_analyser.py*) and create the executables, where: the ```noconsole``` option creates an executable without a console window (this option can be removed if you wish to use the console window for debugging); and the ```onefile``` option creates a single executable file (if this option is removed, the resulting executable may be smaller but a number of directories will be created alongside the executable)
 
 ```
-pyinstaller --onefile --noconsole PSD-Analyser.py
+pyinstaller --onefile --noconsole PSDA_app.py --hidden-import=openpyxl
 ```
 
 **Important equations used by *PSD Analyser***
