@@ -14,8 +14,9 @@
 **Run the code directly**
 - Clone the repository or download files individually as you wish
 - (Python) Import into your Python environment
-  - Ensure all the necessary libraries (see imports in *PSD-Analyser* an *psd_analyser*) are installed in your environment
-  - Instructions for creating a miminal environment in which *PSDAnalyser* can be run is provided in *env_setup.txt*, using the *Anaconda* distribution of Python (details [here](https://www.anaconda.com/)) or the standard Python environment management library *venv*
+  - Create a suitable Python environment
+  - Clone this repository, either locally or from Github
+  - Import *PSD Analyser* into your Python environment
   - There are several examples given in the *psd_analyser* script to demonstrate functionality, specifically: loading and saving data, plotting PSDs, fitting PSDs to log-normal distributions; and reducing them to *N* components using the product difference algorithm (PDA); comment out the code as appropriate
 - (MATLAB) Import each function and class individually (**to be completed**)
   - Download and call the functions individually (more functionality under development)
@@ -24,12 +25,12 @@
 
 **How *PSD Analyser* works (Python)**
 
-The app (*PSD-Analyser*) creates a user interface for loading, interacting with and saving PSD data. However, the hard work is done by the *PSDAnalyser* class within the *psd_analyser* library, which can be used without the app and contains some functionality not available in the app (see below).
+The app (*PSDA_app*) creates a user interface for loading, interacting with and saving PSD data. However, the hard work is done by the *PSDAnalyser* class within the *psd_analyser* library, which can be used without the app and contains some functionality not available in the app (see below).
 
 **Summary of *PSD Analyser* functionality**
 
 1. Parsing of *Mastersizer* files in spreadsheet (CSV, Excel) formats
-2. Log-normal modelling of PSDs, where fitting can be performed to eithe the cumulative distribution function (CDF) or probability density function (PDF) of the PSD data
+2. Log-normal modelling of PSDs, where fitting can be performed to either the cumulative distribution function (CDF) or probability density function (PDF) of the PSD data
 3. Application to PSDs of the product difference algorithm (PDA) to PSDs, which computes the discrete distribution of *N* elements with the same statistical moments (mean, etc.)
 4. (With standalone Python app) Visualisation of results in an interactive viewer, allowing output of figures in various formats (currently Python only)
 5. Saving PSD data, with fitted log-normal parameters, into a single spreadsheet for further analysis
@@ -48,6 +49,12 @@ The app (*PSD-Analyser*) creates a user interface for loading, interacting with 
   - *Plot log/linear buttons* Toggle between logarithmic and linear scale on the *x*-axis (*i.e.* particle size)
 
 **Using *PSD Analyser* in code form (Python)**
+
+- Create an environment using the file provided via the following command: ```conda env create -f environment.yaml```, then activate it with ```conda activate psdanalyser```
+- Navigate to the folder containing ```setup.py``` and install the *PSD Analyser* package into your environment via ```conda install -e .```, where the final ```.``` (period/full stop) is required, and the ```-e``` flag indicates development mode and is optional
+- There are then multiple ways to use various functionalities of *PSD Analyser*, for example:
+  - From the command line, run the app as follows: ```python psdanalyser\PDSA_app.py```
+  - In your Python kernel, instantiate the app with ```import psdanalyser.PSDA_app as app```, then run it with ```apptest = app.TkApp()```
 
 - Running the code directly provides additional flexibility not available in the app, in particular:
   1. The product difference algorithm (PDA) can be used to model a given PSD as another with an arbitrary number of elements and the same moments, *N*; this is intended as a tool in computationally expensive applications that rely on size-fraction-dependent calculations
