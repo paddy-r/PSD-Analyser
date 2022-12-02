@@ -6,10 +6,10 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import os
 
-''' Workaround to avoid "module not found error" when importing psd_analyser '''
-import sys
-sys.path.append(os.path.join(os.path.dirname(__file__)))
-import psd_analyser as psda
+# ''' Workaround to avoid "module not found error" when importing psd_analyser '''
+# import sys
+# sys.path.append(os.path.join(os.path.dirname(__file__)))
+import psdanalyser.psd_analyser as psda
 
 
 
