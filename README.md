@@ -78,6 +78,8 @@ pyinstaller --onefile --noconsole PSDA_app.py --hidden-import=openpyxl
 
 **Important equations used by *PSD Analyser***
 
+The statistical tools used by *PSD Analyser* are all described in more detail in [the "equations" document](equations.md)
+
 1. The log-normal cumulative distribution function (CDF). See [here](https://en.wikipedia.org/wiki/Log-normal_distribution#Cumulative_distribution_function) and [here](https://mathworld.wolfram.com/LogNormalDistribution.html).
 2. The log-normal probability density function (PDF). See [here](https://en.wikipedia.org/wiki/Log-normal_distribution#Probability_density_function) and [here](https://mathworld.wolfram.com/LogNormalDistribution.html).
 3. The product difference algorithm (PDA). See references below.
