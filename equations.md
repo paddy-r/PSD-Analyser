@@ -64,7 +64,11 @@ For polydisperse particle species, *i.e.* those that have a distribution of size
 
 **1. Python**
 
+The function *product_difference_algorithm* takes the particle sizes, $d$, the corresponding PDF and $N$ (optional; default is $N =3$), and returns an $N$-sized distribution with the same statistical moments as the input distribution.
+
 **2. MATLAB**
+
+As Python.
 
 ### Detailed description
 
