@@ -10,6 +10,14 @@ Many natural and manufactured particle species have size distributions that are 
 
 ### Using the lognormal distribution in *PSD Analyser*
 
+**1. Python**
+
+**2. MATLAB**
+
+**3. Microsoft Excel**
+
+We note that the lognormal 
+
 ### Detailed description
 
 ## 2. Product difference algorithm (PDA)
@@ -18,11 +26,18 @@ For polydisperse particle species, *i.e.* those that have a distribution of size
 
 ### Using the PDA in *PSD Analyser*
 
+**1. Python**
+
+To obtain a lognormal fit to a size distribution, use either (1) *fit_lognormal_CDF* (takes sizes $d$ and CDF; $p_0$ is optional and is a set of lognormal parameters returned by *fit_lognormal_CDF_linear*), (2) *fit_lognormal_CDF_linear* ($d$, CDF) or (3) *fit_lognormal_PDF* ($d$, CDF, $p_0$ (optional)).
+
+**2. MATLAB**
+
+
 ### Detailed description
 
-The $k$th statistical moment, $m_k$, of a distribution of a variable $x$ is:
+The $k$ th statistical moment, $m_k$, of a distribution of a variable $x$ is:
 
-$$ m_k = \int x^k f(x)dx \approx \sum_{i=1}^n w_i x_i^k, \ k=0,\dots,N, \tag{1} $$
+$$ m_k = \int x^k f(x)dx \approx \sum_{i=1}^n w_i x_i^k, \ k = 0,\dots,N, \tag{1} $$
 	
 
 where $f(x)$ is the distribution function in the range $x$ to $x$ + $dx$, and $w_i$ and $x_i$ are the $i$th weights and abscissas of a corresponding discrete distribution; $w_i$ may alternatively be expressed as $W_i$ $\Delta x_i$ in the case of a measured distribution with variable bin sizes, where $W_i$ is a suitably modified weight. For closure, it is required that $N = 2n-1$, and $m_0$ = 1 if the distribution is suitably normalised.
@@ -45,9 +60,9 @@ $$ a_i = α_2i + α_{2i-1}, \ i = 1,\dots,n, \tag{5} $$
 	
 $$ b_i = -\sqrt{α_{2i+1} + α_2i}, \ i = 1,\dots,n-1, \tag{6} $$
 
-and are then used to construct a tridiagonal matrix, $J$, with a forming the main diagonal and b both the sub- and superdiagonals. The eigenvalues of $J$ give the abscissas, $x_i$, directly and the first components, $v_{i,1}$, of each eigenvector of $J$ give the weights, $w_i$, as follows (McGraw, 1997):
+and are then used to construct a tridiagonal matrix, $J$, with a forming the main diagonal and $b$ both the sub- and superdiagonals. The eigenvalues of $J$ give the abscissas, $x_i$, directly and the first components, $v_{i,1}$, of each eigenvector of $J$ give the weights, $w_i$, as follows (McGraw, 1997):
 
-$$ w_i=m_0 v_{i,1}^2,	i=1,\dots,n. \tag{7} $$
+$$ w_i=m_0 v_{i,1}^2, \ i = 1,\dots,n. \tag{7} $$
 
 The PDA was used recently and very successfully by Mwasame *et al.* (2016) to model volume-weighted particle size distributions (with $n = 3$) in order to implement a model of the viscosity of multiphase (solid-liquid) mixtures with arbitrary solid-phase size distributions. In the case of $n = 3$, *i.e.* a ternary distribution, Equation (1) becomes:
 
