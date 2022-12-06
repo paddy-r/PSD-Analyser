@@ -12,13 +12,47 @@ Many natural and manufactured particle species have size distributions that are 
 
 **1. Python**
 
+To obtain a lognormal fit to a size distribution, use either (1) *fit_lognormal_CDF* (takes sizes $d$ and CDF; $p_0$ is optional and is a set of lognormal parameters returned by *fit_lognormal_CDF_linear*), (2) *fit_lognormal_CDF_linear* ( $d$, CDF) or (3) *fit_lognormal_PDF* ( $d$, CDF, $p_0$ (optional)).
+
+To obtain the value of the PDF or CDF of a lognormal distribution with parameters $M$ and $S$ at a size $x$, use (1) *lognormal_PDF* or (2) *lognormal_CDF*, respectively.
+
 **2. MATLAB**
+
+The MATLAB functions are named exactly the same as the Python ones, but differ in that $p_0$ is a required argument in *fit_lognormal_CDF* and *fit_lognormal_PDF*.
 
 **3. Microsoft Excel**
 
 We note that the lognormal 
 
+There is no built-in inverse error function in Microsoft Excel, but the inverse gamma function, $\Gamma^{–1}$ (implemented as ```GAMMAINV(𝑥, α, β)``` or newer version ```GAMMA.INV(𝑥, α, β))```, is provided and is related to the inverse error function as follows, with $\alpha = 0.5$ and $\beta = 1$, i.e.:
+
+	〖sqrt[Γ〗^(-1) (x,0.5,1)]=erf^(-1) (x).		
+
+The first argument to Excel’s inverse gamma function must be in the range 0 < 𝑥 < 1, which means that only the lower half of the particle size data can be used for the fit. However, since the inverse error function is odd – i.e. erf–1(–𝑥) = –erf–1(𝑥) – the full particle size distribution can be accessed – i.e. –1 < 𝑥 < 1 – using a conditional statement in Excel as follows:
+
+=IF(cell>0,SQRT(GAMMAINV(cell,0.5,1)),-SQRT(GAMMAINV(–cell,0.5,1))) 
+
+where cell indicates a reference to the relevant cell in the spreadsheet (in this case, the cell containing $x = 2C – 1$). A similar conditional formula can be written to evaluate quantiles *via* Equation (3).
+
 ### Detailed description
+
+The lognormal cumulative distribution function (CDF), $C$, is:
+
+$$ C(d) = \frac{1}{2} \left[ 1+\mathrm{erf} \left( \frac{\ln⁡(d-M)}{S\sqrt2} \right) \right], \tag{1} $$
+
+where $d$ is the particle size in microns and $M$ and $S$ are the log-normal parameters and $\mathrm{erf}$ is the error function. Equation (1) can be linearised as follows in order to fit measured data:
+
+$$ \mathrm{erf}^{-1} \left[ 2C(d)-1 \right] = \frac{\ln⁡d}{S\sqrt2} + \frac{M}{S\sqrt2} \tag{2}, $$
+
+*i.e.* $S$ and $M$ can be found from the gradient and intercept, respectively, of a plot of the LHS of Equation (2) *vs.* $\ln d$. The $q$ th quantile is given by:
+
+$$ d_q = exp[M+〖√(2S^2 ) erf〗^(-1) (2q-1)], \tag{3} $$
+
+where $\mathrm{erf}^{–1}” is the inverse error function, and the median value – *i.e.* $q = 50$ or $d = d_{50}$ – is $\exp(M)$. The $n$ th moment of a log-normal distribution is:
+
+$$ m_n=exp⁡(nM+1/2 n^2 S^2 ), \tag{4} $$
+
+and particle size metrics are commonly given in the form $d[a,b] = m_a/m_b$, for example the volume-weighted mean, $d[4,3]$, and the surface-weighted or Sauter mean, $d[3,2]$.
 
 ## 2. Product difference algorithm (PDA)
 
@@ -28,10 +62,7 @@ For polydisperse particle species, *i.e.* those that have a distribution of size
 
 **1. Python**
 
-To obtain a lognormal fit to a size distribution, use either (1) *fit_lognormal_CDF* (takes sizes $d$ and CDF; $p_0$ is optional and is a set of lognormal parameters returned by *fit_lognormal_CDF_linear*), (2) *fit_lognormal_CDF_linear* ($d$, CDF) or (3) *fit_lognormal_PDF* ($d$, CDF, $p_0$ (optional)).
-
 **2. MATLAB**
-
 
 ### Detailed description
 
