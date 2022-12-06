@@ -22,17 +22,7 @@ The MATLAB functions are named exactly the same as the Python ones, but differ i
 
 **3. Microsoft Excel**
 
-We note that the lognormal 
-
-There is no built-in inverse error function in Microsoft Excel, but the inverse gamma function, $\Gamma^{–1}$ (implemented as ```GAMMAINV(𝑥, α, β)``` or newer version ```GAMMA.INV(𝑥, α, β))```, is provided and is related to the inverse error function as follows, with $\alpha = 0.5$ and $\beta = 1$, i.e.:
-
-	〖sqrt[Γ〗^(-1) (x,0.5,1)]=erf^(-1) (x).		
-
-The first argument to Excel’s inverse gamma function must be in the range 0 < 𝑥 < 1, which means that only the lower half of the particle size data can be used for the fit. However, since the inverse error function is odd – i.e. erf–1(–𝑥) = –erf–1(𝑥) – the full particle size distribution can be accessed – i.e. –1 < 𝑥 < 1 – using a conditional statement in Excel as follows:
-
-=IF(cell>0,SQRT(GAMMAINV(cell,0.5,1)),-SQRT(GAMMAINV(–cell,0.5,1))) 
-
-where cell indicates a reference to the relevant cell in the spreadsheet (in this case, the cell containing $x = 2C – 1$). A similar conditional formula can be written to evaluate quantiles *via* Equation (3).
+We note that the lognormal function is not implemented in Microsoft Excel, but that the related inverse error function, $\Gamma^{–1}$ (see Equation (3)), is. Details are given at the end of the next section.
 
 ### Detailed description
 
@@ -46,13 +36,25 @@ $$ \mathrm{erf}^{-1} \left[ 2C(d)-1 \right] = \frac{\ln⁡d}{S\sqrt2} + \frac{M}
 
 *i.e.* $S$ and $M$ can be found from the gradient and intercept, respectively, of a plot of the LHS of Equation (2) *vs.* $\ln d$. The $q$ th quantile is given by:
 
-$$ d_q = exp[M+〖√(2S^2 ) erf〗^(-1) (2q-1)], \tag{3} $$
+$$ d_q = \exp \left[ M + \sqrt{2S^2} \mathrm{erf}^{-1} \left( 2q-1 \right) \right], \tag{3} $$
 
 where $\mathrm{erf}^{–1}” is the inverse error function, and the median value – *i.e.* $q = 50$ or $d = d_{50}$ – is $\exp(M)$. The $n$ th moment of a log-normal distribution is:
 
-$$ m_n=exp⁡(nM+1/2 n^2 S^2 ), \tag{4} $$
+$$ m_n = \exp \left( nM + \frac{1}{2} n^2 S^2 \right), \tag{4} $$
 
 and particle size metrics are commonly given in the form $d[a,b] = m_a/m_b$, for example the volume-weighted mean, $d[4,3]$, and the surface-weighted or Sauter mean, $d[3,2]$.
+
+There is no built-in inverse error function in Microsoft Excel, but the inverse gamma function, $\Gamma^{–1}$ (implemented as ```GAMMAINV(𝑥, α, β)``` or newer version ```GAMMA.INV(𝑥, α, β))```, is provided and is related to the inverse error function as follows, with $\alpha = 0.5$ and $\beta = 1$, i.e.:
+
+$$ \sqrt{\Gamma^{-1} (x,0.5,1)} = \mathrm{erf}^{-1} (x). \tag{5} $$
+
+The first argument to Excel’s inverse gamma function must be in the range $0 < x < 1$, which means that only the lower half of the particle size data can be used for the fit. However, since the inverse error function is odd – *i.e.* $\mathrm{erf}^{–1}(–x) = –\mathrm{erf}^{–1}(x)$ – the full particle size distribution can be accessed – *i.e.* $–1 < x < 1$ – using a conditional statement in Excel as follows:
+
+```
+=IF(cell>0,SQRT(GAMMAINV(cell,0.5,1)),-SQRT(GAMMAINV(–cell,0.5,1))) 
+```
+
+where cell indicates a reference to the relevant cell in the spreadsheet (in this case, the cell containing $x = 2C – 1$). A similar conditional formula can be written to evaluate quantiles *via* Equation (3).
 
 ## 2. Product difference algorithm (PDA)
 
