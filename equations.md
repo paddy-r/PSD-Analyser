@@ -4,7 +4,7 @@
 
 [![DOI](https://zenodo.org/badge/328645883.svg)](https://zenodo.org/badge/latestdoi/328645883)
 
-## 1. Log-normal distribution
+## 1. Lognormal distribution
 
 Many natural and manufactured particle species have size distributions that are log-normal, *i.e.* the logarithm of their size follows a normal distribution. Here the lognormal distribution is described, along with some tools for fitting real particle size distributions to it.
 
