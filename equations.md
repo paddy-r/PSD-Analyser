@@ -1,4 +1,4 @@
-## **Mathematical tools used by PSD Analyser**
+## Mathematical tools used by *PSD Analyser*
 
 ### Hugh Patrick Rice, 2022
 
@@ -6,7 +6,7 @@
 
 ## 1. Log-normal distribution
 
-Many natural and manufactured particle species have size distributions that are log-normal, *i.e.* the logarithm of their size follows a normal distribution.
+Many natural and manufactured particle species have size distributions that are log-normal, *i.e.* the logarithm of their size follows a normal distribution. Here the lognormal distribution is described, along with some tools for fitting real particle size distributions to it.
 
 ### Using the lognormal distribution in *PSD Analyser*
 
@@ -18,7 +18,7 @@ To obtain the value of the PDF or CDF of a lognormal distribution with parameter
 
 **2. MATLAB**
 
-The MATLAB functions are named exactly the same as the Python ones, but differ in that $p_0$ is a required argument in *fit_lognormal_CDF* and *fit_lognormal_PDF*.
+The MATLAB functions are named exactly the same as the Python ones, but differ in that $p_0$ is a required argument to *fit_lognormal_CDF* and *fit_lognormal_PDF*.
 
 **3. Microsoft Excel**
 
@@ -38,7 +38,7 @@ $$ \mathrm{erf}^{-1} \left[ 2C(d)-1 \right] = \frac{\ln⁡d}{S\sqrt2} + \frac{M}
 
 $$ d_q = \exp \left[ M + \sqrt{2S^2} \mathrm{erf}^{-1} \left( 2q-1 \right) \right], \tag{3} $$
 
-where $\mathrm{erf}^{–1}” is the inverse error function, and the median value – *i.e.* $q = 50$ or $d = d_{50}$ – is $\exp(M)$. The $n$ th moment of a log-normal distribution is:
+where $\mathrm{erf}^{–1}$ is the inverse error function, and the median value – *i.e.* $q = 50$ or $d = d_{50}$ – is $\exp(M)$. The $n$ th moment of a log-normal distribution is:
 
 $$ m_n = \exp \left( nM + \frac{1}{2} n^2 S^2 \right), \tag{4} $$
 
