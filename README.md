@@ -8,7 +8,7 @@
 
 **Run the standalone executable (currently Windows only)**
 - Go to the *Releases* on the right of the page
-- Download the executable file (ending *.exe*) and any of the spreadsheet example files from the main page if you wish to try loading them
+- Download the executable file (ending ```.exe```) and any of the spreadsheet example files from the main page if you wish to try loading them
 - Once downloaded, double-click the executable file and it will run, then try loading any of the example spreadsheets to view some PSD data
 
 **Run the code directly**
@@ -17,7 +17,7 @@
   - Create a suitable Python environment
   - Clone this repository, either locally or from Github
   - Import *PSD Analyser* into your Python environment
-  - There are several examples given in the *psd_analyser* script to demonstrate functionality, specifically: loading and saving data, plotting PSDs, fitting PSDs to log-normal distributions; and reducing them to *N* components using the product difference algorithm (PDA); comment out the code as appropriate
+  - There are several examples given in the *psd_analyser* script to demonstrate functionality, specifically: loading and saving data, plotting PSDs, fitting PSDs to log-normal distributions; and reducing them to $N$ components using the product difference algorithm (PDA); comment out the code as appropriate
 - (MATLAB) Import each function and class individually (**to be completed**)
   - Download and call the functions individually (more functionality under development)
 
@@ -31,14 +31,14 @@ The app (*PSDA_app*) creates a user interface for loading, interacting with and 
 
 1. Parsing of *Mastersizer* files in spreadsheet (CSV, Excel) formats
 2. Log-normal modelling of PSDs, where fitting can be performed to either the cumulative distribution function (CDF) or probability density function (PDF) of the PSD data
-3. Application to PSDs of the product difference algorithm (PDA) to PSDs, which computes the discrete distribution of *N* elements with the same statistical moments (mean, etc.)
+3. Application to PSDs of the product difference algorithm (PDA) to PSDs, which computes the discrete distribution of *N* elements with the same statistical moments (mean, *etc.*)
 4. (With standalone Python app) Visualisation of results in an interactive viewer, allowing output of figures in various formats (currently Python only)
 5. Saving PSD data, with fitted log-normal parameters, into a single spreadsheet for further analysis
 
 **Running the *PSD Analyser* standalone app (Python)**
 
 - See the quick start guide above to get started
-- Once *PSD Analyser* is running, load one of the spreadsheets provided as examples; these are all outputs from the *Mastersizer* laser-diffraction-based particle sizing device manufactured by *Malvern Panalytical* (formerly *Malvern Instruments*)
+- Once *PSD Analyser* is running, load one of the spreadsheets provided as examples; these are all outputs from the *Mastersizer* laser diffraction-based particle sizing device manufactured by *Malvern Panalytical* (formerly *Malvern Instruments*)
 - A summary of the user interface is provided below
   - *Load file* Select a spreadsheet from which to load PSD data; several example files are provided
   - *Save data* Dump all loaded and modelled data to a single spreadsheet; by default the file format is the same as the original load-file, but the user can specify otherwise; the index of each dataset corresponds to the row in which it appeared in the original data file
@@ -115,3 +115,5 @@ Please either raise an issue here at Github or contact me directly.
 (6) Wheeler and Gordon (1971), *Bounds for averages using moment constraints*, In: Baker and Gammel (eds.), *The Padé Approximant in Theoretical Physics*, New York and London: Elsevier Science, ISBN: 9780080955803
 
 (7) Farr SF (2013), *Random close packing fractions of lognormal distributions of hard spheres*, Powder Technology **245** 28-34, DOI: https://doi.org/10.1016/j.powtec.2013.04.009
+
+(8) Mwasame, P (2016), *Modeling the viscosity of polydisperse suspensions: Improvements in prediction of limiting behavior*, Physics of Fluids **28** 061701 (6 p.), DOI: http://dx.doi.org/10.1063/1.4953407
