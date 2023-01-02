@@ -1,0 +1,6 @@
+# All pycache
+psdanalyser/__pycache__/*
+psdanalyser/__pycache__/
+*.pyc
+*/*.pyc
+*/*/*.pyc
