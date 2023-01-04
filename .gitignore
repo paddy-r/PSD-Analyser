@@ -4,3 +4,10 @@ psdanalyser/__pycache__/
 *.pyc
 */*.pyc
 */*/*.pyc
+
+# IDE-specific stuff
+.idea/
+.idea/*
+
+psdanalyser.egg-info/
+psdanalyser.egg-info/*
