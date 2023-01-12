@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>PSD Analyser: A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation &#8212; PSD-Analyser  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to PSD-Analyser’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="psd-analyser-a-set-of-python-matlab-tools-for-particle-size-distribution-psd-analysis-and-visualisation">
+<h1><strong>PSD Analyser: A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation</strong><a class="headerlink" href="#psd-analyser-a-set-of-python-matlab-tools-for-particle-size-distribution-psd-analysis-and-visualisation" title="Permalink to this heading">¶</a></h1>
+<section id="hugh-patrick-rice-2022">
+<h2>Hugh Patrick Rice, 2022<a class="headerlink" href="#hugh-patrick-rice-2022" title="Permalink to this heading">¶</a></h2>
+<p><a class="reference external" href="https://zenodo.org/badge/latestdoi/328645883"><img alt="DOI" src="https://zenodo.org/badge/328645883.svg" /></a></p>
+</section>
+</section>
+<section id="quick-start-guide">
+<h1>Quick-start guide<a class="headerlink" href="#quick-start-guide" title="Permalink to this heading">¶</a></h1>
+<p><strong>Run the standalone executable (currently Windows only)</strong></p>
+<ul class="simple">
+<li><p>Go to the <em>Releases</em> on the right of the page</p></li>
+<li><p>Download the executable file (ending <code class="docutils literal notranslate"><span class="pre">.exe</span></code>) and any of the spreadsheet example files from the main page if you wish to try loading them</p></li>
+<li><p>Once downloaded, double-click the executable file and it will run, then try loading any of the example spreadsheets to view some PSD data</p></li>
+</ul>
+<p><strong>Run the code directly</strong></p>
+<ul class="simple">
+<li><p>Clone the repository or download files individually as you wish</p></li>
+<li><p>(Python) Import into your Python environment</p>
+<ul>
+<li><p>Create a suitable Python environment</p></li>
+<li><p>Clone this repository, either locally or from Github</p></li>
+<li><p>Import <em>PSD Analyser</em> into your Python environment</p></li>
+<li><p>There are several examples given in the <em>psd_analyser</em> script to demonstrate functionality, specifically: loading and saving data, plotting PSDs, fitting PSDs to log-normal distributions; and reducing them to $N$ components using the product difference algorithm (PDA); comment out the code as appropriate</p></li>
+</ul>
+</li>
+<li><p>(MATLAB) Import each function and class individually (<strong>to be completed</strong>)</p>
+<ul>
+<li><p>Download and call the functions individually (more functionality under development)</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="detailed-guide">
+<h1>Detailed guide<a class="headerlink" href="#detailed-guide" title="Permalink to this heading">¶</a></h1>
+<p><strong>How <em>PSD Analyser</em> works (Python)</strong></p>
+<p>The app (<em>PSDA_app</em>) creates a user interface for loading, interacting with and saving PSD data. However, the hard work is done by the <em>PSDAnalyser</em> class within the <em>psd_analyser</em> library, which can be used without the app and contains some functionality not available in the app (see below).</p>
+<p><strong>Summary of <em>PSD Analyser</em> functionality</strong></p>
+<ol class="arabic simple">
+<li><p>Parsing of <em>Mastersizer</em> files in spreadsheet (CSV, Excel) formats</p></li>
+<li><p>Log-normal modelling of PSDs, where fitting can be performed to either the cumulative distribution function (CDF) or probability density function (PDF) of the PSD data</p></li>
+<li><p>Application to PSDs of the product difference algorithm (PDA) to PSDs, which computes the discrete distribution of <em>N</em> elements with the same statistical moments (mean, <em>etc.</em>)</p></li>
+<li><p>(With standalone Python app) Visualisation of results in an interactive viewer, allowing output of figures in various formats (currently Python only)</p></li>
+<li><p>Saving PSD data, with fitted log-normal parameters, into a single spreadsheet for further analysis</p></li>
+</ol>
+<p><strong>Running the <em>PSD Analyser</em> standalone app (Python)</strong></p>
+<ul class="simple">
+<li><p>See the quick start guide above to get started</p></li>
+<li><p>Once <em>PSD Analyser</em> is running, load one of the spreadsheets provided as examples; these are all outputs from the <em>Mastersizer</em> laser diffraction-based particle sizing device manufactured by <em>Malvern Panalytical</em> (formerly <em>Malvern Instruments</em>)</p></li>
+<li><p>A summary of the user interface is provided below</p>
+<ul>
+<li><p><em>Load file</em> Select a spreadsheet from which to load PSD data; several example files are provided</p></li>
+<li><p><em>Save data</em> Dump all loaded and modelled data to a single spreadsheet; by default the file format is the same as the original load-file, but the user can specify otherwise; the index of each dataset corresponds to the row in which it appeared in the original data file</p></li>
+<li><p><em>Export figure</em> Dump current plot to an image file for later use; user can specify image format</p></li>
+<li><p><em>Forward and back arrows</em> If the file loaded contains multiple PSD datasets, these arrow buttons scroll through them; the dataset number is shown in the information panel (bottom left)</p></li>
+<li><p><em>Fit to PDF/CDF buttons</em> These buttons toggle between the two methods for fitting of a log-normal distribution to the dataset displayed; see code for more information, and note that each can give different results for the log-normal fit parameters</p></li>
+<li><p><em>Plot PDF/CDF buttons</em> These buttons toggle between plotting the loaded and log-normal fitted data in CDF and PDF form, depending on the user’s preference</p></li>
+<li><p><em>Plot log/linear buttons</em> Toggle between logarithmic and linear scale on the <em>x</em>-axis (<em>i.e.</em> particle size)</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Using <em>PSD Analyser</em> in code form (Python)</strong></p>
+<ul class="simple">
+<li><p>Create an environment using the file provided via the following command: <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">env</span> <span class="pre">create</span> <span class="pre">-f</span> <span class="pre">environment.yaml</span></code>, then activate it with <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">psdanalyser</span></code></p></li>
+<li><p>Navigate to the folder containing <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> and install the <em>PSD Analyser</em> package into your environment via <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code>, where the final <code class="docutils literal notranslate"><span class="pre">.</span></code> (period/full stop) is required, and the <code class="docutils literal notranslate"><span class="pre">-e</span></code> flag indicates development mode and is optional</p></li>
+<li><p>There are then multiple ways to use various functionalities of <em>PSD Analyser</em>, for example:</p>
+<ul>
+<li><p>From the command line, run the app as follows: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">psdanalyser\PDSA_app.py</span></code></p></li>
+<li><p>In your Python kernel, instantiate the app with <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">psdanalyser.PSDA_app</span> <span class="pre">as</span> <span class="pre">app</span></code>, then run it with <code class="docutils literal notranslate"><span class="pre">apptest</span> <span class="pre">=</span> <span class="pre">app.TkApp()</span></code></p></li>
+</ul>
+</li>
+<li><p>Running the code directly provides additional flexibility not available in the app, in particular:</p>
+<ol class="arabic simple">
+<li><p>The product difference algorithm (PDA) can be used to model a given PSD as another with an arbitrary number of elements and the same moments, <em>N</em>; this is intended as a tool in computationally expensive applications that rely on size-fraction-dependent calculations</p></li>
+<li><p>Log-normal fitting can be executed with or without pre-fitting (pre-fitting is used by default in the app) <em>via</em> linear regression using a linearised version of the equation for the log-normal CDF; pre-fitting has a computational cost but makes it more likely that a subsequent non-linear fit will be successful</p></li>
+</ol>
+</li>
+</ul>
+<p><strong>Creating your own standalone app using the <em>PSD Analyser</em> source code (Python)</strong></p>
+<p>The app was created using the Python library <em>pyinstaller</em>, and you can do the same. A rough outline of the necessary code for doing so is below.</p>
+<ol class="arabic simple">
+<li><p>In the command line in your Python environment, install <em>pyinstaller</em> (see <a class="reference external" href="https://pypi.org/project/pyinstaller/">here</a>):</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pyinstaller</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Then navigate to the directory containing your Python scripts (<em>i.e.</em> <em>PSD-Analyser.py</em> and <em>psd_analyser.py</em>) and create the executables, where: the <code class="docutils literal notranslate"><span class="pre">noconsole</span></code> option creates an executable without a console window (this option can be removed if you wish to use the console window for debugging); and the <code class="docutils literal notranslate"><span class="pre">onefile</span></code> option creates a single executable file (if this option is removed, the resulting executable may be smaller but a number of directories will be created alongside the executable)</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pyinstaller</span> <span class="o">--</span><span class="n">onefile</span> <span class="o">--</span><span class="n">noconsole</span> <span class="n">PSDA_app</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">hidden</span><span class="o">-</span><span class="n">import</span><span class="o">=</span><span class="n">openpyxl</span>
+</pre></div>
+</div>
+<p><strong>Important equations used by <em>PSD Analyser</em></strong></p>
+<p>The statistical tools used by <em>PSD Analyser</em> are all described in more detail in <span class="xref myst">the “equations” document</span></p>
+<ol class="arabic simple">
+<li><p>The log-normal cumulative distribution function (CDF). See <a class="reference external" href="https://en.wikipedia.org/wiki/Log-normal_distribution#Cumulative_distribution_function">here</a> and <a class="reference external" href="https://mathworld.wolfram.com/LogNormalDistribution.html">here</a>.</p></li>
+<li><p>The log-normal probability density function (PDF). See <a class="reference external" href="https://en.wikipedia.org/wiki/Log-normal_distribution#Probability_density_function">here</a> and <a class="reference external" href="https://mathworld.wolfram.com/LogNormalDistribution.html">here</a>.</p></li>
+<li><p>The product difference algorithm (PDA). See references below.</p></li>
+</ol>
+</section>
+<section id="contact-and-issue-reporting">
+<h1>Contact and issue reporting<a class="headerlink" href="#contact-and-issue-reporting" title="Permalink to this heading">¶</a></h1>
+<p>Please either raise an issue here at Github or contact me directly.</p>
+<p><em>Contact:</em> Hugh Rice, h.p.rice&#64;leeds.ac.uk</p>
+</section>
+<section id="how-to-cite-this-repository">
+<h1>How to cite this repository<a class="headerlink" href="#how-to-cite-this-repository" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>Copy or click the Zenodo link above, which has a corresponding DOI attached, and construct your own citation that contains it</p></li>
+<li><p>Depending on your style, your citation should look something like this: Rice HP (2022), <em>PSD Analyser: A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation</em>, Github code repository, DOI: &lt;latest DOI, see above&gt;</p></li>
+<li><p>If you’re unsure, please contact me</p></li>
+</ul>
+</section>
+<section id="references-and-notes">
+<h1>References and notes<a class="headerlink" href="#references-and-notes" title="Permalink to this heading">¶</a></h1>
+<p><em>Note on history, development and previous implementation</em></p>
+<ul class="simple">
+<li><p>The concepts behind <em>PSD Analyser</em> were developed during research that led to the production of references (1) and (2). Please refer to those for more details and examples.</p></li>
+<li><p>The standalone app was constructed using the Python GUI library <em>Tkinter</em> and relies heavily on standard Python numerical and mathematical libraries <em>scipy</em>, <em>numpy</em> and <em>pandas</em>, as well as <em>matplotlib</em> for visualisation.</p></li>
+</ul>
+<p>(1) Rice HP, Fairweather M, Peakall J, Hunter TN, Mahmoud B and Biggs SR (2015), <em>Constraints on the functional form of the critical deposition velocity in solid–liquid pipe flow at low solid volume fractions</em>, Chemical Engineering Science <strong>126</strong> 759-770, DOI: https://doi.org/10.1016/j.ces.2014.12.039</p>
+<p>(2) Rice HP, Peakall J, Fairweather M and Hunter TN (2020), <em>Extending estimation of the critical deposition velocity in solid–liquid pipe flow to ideal and non-ideal particles at low and intermediate solid volume fractions</em>, Chemical Engineering Science <strong>211</strong> 115308 (9 p.), DOI: https://doi.org/10.1016/j.ces.2019.115308</p>
+<p>(3) McGraw R (1997), <em>Description of Aerosol Dynamics by the Quadrature Method of Moments</em>, Aerosol Science and Technology <strong>27</strong> (2) 255-265, DOI: https://doi.org/10.1080/02786829708965471</p>
+<p>(4) Marchisio DL, Vigil RD and Fox RO (2003), <em>Implementation of the quadrature method of moments in CFD codes for aggregation–breakage problems</em>, Chemical Engineering Science <strong>58</strong> (15) 3337-3351, DOI: https://doi.org/10.1016/S0009-2509(03)00211-2</p>
+<p>(5) Gordon RG (1968), <em>Error Bounds in Equilibrium Statistical Mechanics</em>, Journal of Mathematical Physics <strong>9</strong> 655-663, DOI: https://doi.org/10.1063/1.1664624</p>
+<p>(6) Wheeler and Gordon (1971), <em>Bounds for averages using moment constraints</em>, In: Baker and Gammel (eds.), <em>The Padé Approximant in Theoretical Physics</em>, New York and London: Elsevier Science, ISBN: 9780080955803</p>
+<p>(7) Farr SF (2013), <em>Random close packing fractions of lognormal distributions of hard spheres</em>, Powder Technology <strong>245</strong> 28-34, DOI: https://doi.org/10.1016/j.powtec.2013.04.009</p>
+<p>(8) Mwasame, P (2016), <em>Modeling the viscosity of polydisperse suspensions: Improvements in prediction of limiting behavior</em>, Physics of Fluids <strong>28</strong> 061701 (6 p.), DOI: http://dx.doi.org/10.1063/1.4953407</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PSD-Analyser</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>PSD Analyser: A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#hugh-patrick-rice-2022">Hugh Patrick Rice, 2022</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#quick-start-guide">Quick-start guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#detailed-guide">Detailed guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#contact-and-issue-reporting">Contact and issue reporting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#how-to-cite-this-repository">How to cite this repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#references-and-notes">References and notes</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to PSD-Analyser’s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Hugh Rice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/readme.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

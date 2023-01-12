@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Mathematical tools used by PSD Analyser &#8212; PSD-Analyser  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="PSD Analyser: A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation" href="readme.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="mathematical-tools-used-by-psd-analyser">
+<h1>Mathematical tools used by <em>PSD Analyser</em><a class="headerlink" href="#mathematical-tools-used-by-psd-analyser" title="Permalink to this heading">¶</a></h1>
+<section id="hugh-patrick-rice-2022">
+<h2>Hugh Patrick Rice, 2022<a class="headerlink" href="#hugh-patrick-rice-2022" title="Permalink to this heading">¶</a></h2>
+<p><a class="reference external" href="https://zenodo.org/badge/latestdoi/328645883"><img alt="DOI" src="https://zenodo.org/badge/328645883.svg" /></a></p>
+</section>
+</section>
+<section id="lognormal-distribution">
+<h1>1. Lognormal distribution<a class="headerlink" href="#lognormal-distribution" title="Permalink to this heading">¶</a></h1>
+<p>Many natural and manufactured particle species have size distributions that are log-normal, <em>i.e.</em> the logarithm of their size follows a normal distribution. Here the lognormal distribution is described, along with some tools for fitting real particle size distributions to it.</p>
+<section id="using-the-lognormal-distribution-in-psd-analyser">
+<h2>Using the lognormal distribution in <em>PSD Analyser</em><a class="headerlink" href="#using-the-lognormal-distribution-in-psd-analyser" title="Permalink to this heading">¶</a></h2>
+<p><strong>1. Python</strong></p>
+<p>To obtain a lognormal fit to a size distribution, use either (1) <em>fit_lognormal_CDF</em> (takes sizes $d$ and CDF; $p_0$ is optional and is a set of lognormal parameters returned by <em>fit_lognormal_CDF_linear</em>), (2) <em>fit_lognormal_CDF_linear</em> ( $d$, CDF) or (3) <em>fit_lognormal_PDF</em> ( $d$, CDF, $p_0$ (optional)).</p>
+<p>To obtain the value of the PDF or CDF of a lognormal distribution with parameters $M$ and $S$ at a size $x$, use (1) <em>lognormal_PDF</em> or (2) <em>lognormal_CDF</em>, respectively.</p>
+<p><strong>2. MATLAB</strong></p>
+<p>The MATLAB functions are named exactly the same as the Python ones, but differ in that $p_0$ is a required argument to <em>fit_lognormal_CDF</em> and <em>fit_lognormal_PDF</em>.</p>
+<p><strong>3. Microsoft Excel</strong></p>
+<p>We note that the lognormal function is not implemented in Microsoft Excel, but that the related inverse error function, $\Gamma^{–1}$ (see Equation (3)), is. Details are given at the end of the next section.</p>
+</section>
+<section id="detailed-description">
+<h2>Detailed description<a class="headerlink" href="#detailed-description" title="Permalink to this heading">¶</a></h2>
+<p>The lognormal cumulative distribution function (CDF), $C$, is:</p>
+<p>$$ C(d) = \frac{1}{2} \left[ 1+\mathrm{erf} \left( \frac{\ln⁡(d-M)}{S\sqrt2} \right) \right], \tag{1} $$</p>
+<p>where $d$ is the particle size in microns and $M$ and $S$ are the log-normal parameters and $\mathrm{erf}$ is the error function. Equation (1) can be linearised as follows in order to fit measured data:</p>
+<p>$$ \mathrm{erf}^{-1} \left[ 2C(d)-1 \right] = \frac{\ln⁡d}{S\sqrt2} + \frac{M}{S\sqrt2} \tag{2}, $$</p>
+<p><em>i.e.</em> $S$ and $M$ can be found from the gradient and intercept, respectively, of a plot of the LHS of Equation (2) <em>vs.</em> $\ln d$. The $q$ th quantile is given by:</p>
+<p>$$ d_q = \exp \left[ M + \sqrt{2S^2} \mathrm{erf}^{-1} \left( 2q-1 \right) \right], \tag{3} $$</p>
+<p>where $\mathrm{erf}^{–1}$ is the inverse error function, and the median value – <em>i.e.</em> $q = 50$ or $d = d_{50}$ – is $\exp(M)$. The $n$ th moment of a log-normal distribution is:</p>
+<p>$$ m_n = \exp \left( nM + \frac{1}{2} n^2 S^2 \right), \tag{4} $$</p>
+<p>and particle size metrics are commonly given in the form $d[a,b] = m_a/m_b$, for example the volume-weighted mean, $d[4,3]$, and the surface-weighted or Sauter mean, $d[3,2]$.</p>
+<p>There is no built-in inverse error function in Microsoft Excel, but the inverse gamma function, $\Gamma^{–1}$ (implemented as <code class="docutils literal notranslate"><span class="pre">GAMMAINV(𝑥,</span> <span class="pre">α,</span> <span class="pre">β)</span></code> or newer version <code class="docutils literal notranslate"><span class="pre">GAMMA.INV(𝑥,</span> <span class="pre">α,</span> <span class="pre">β))</span></code>, is provided and is related to the inverse error function as follows, with $\alpha = 0.5$ and $\beta = 1$, i.e.:</p>
+<p>$$ \sqrt{\Gamma^{-1} (x,0.5,1)} = \mathrm{erf}^{-1} (x). \tag{5} $$</p>
+<p>The first argument to Excel’s inverse gamma function must be in the range $0 &lt; x &lt; 1$, which means that only the lower half of the particle size data can be used for the fit. However, since the inverse error function is odd – <em>i.e.</em> $\mathrm{erf}^{–1}(–x) = –\mathrm{erf}^{–1}(x)$ – the full particle size distribution can be accessed – <em>i.e.</em> $–1 &lt; x &lt; 1$ – using a conditional statement in Excel as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>=IF(cell&gt;0,SQRT(GAMMAINV(cell,0.5,1)),-SQRT(GAMMAINV(–cell,0.5,1))) 
+</pre></div>
+</div>
+<p>where cell indicates a reference to the relevant cell in the spreadsheet (in this case, the cell containing $x = 2C – 1$). A similar conditional formula can be written to evaluate quantiles <em>via</em> Equation (3).</p>
+</section>
+</section>
+<section id="product-difference-algorithm-pda">
+<h1>2. Product difference algorithm (PDA)<a class="headerlink" href="#product-difference-algorithm-pda" title="Permalink to this heading">¶</a></h1>
+<p>For polydisperse particle species, <em>i.e.</em> those that have a distribution of sizes rather than a single one, there are many applications in which size fractions must be accounted for if a particle’s physical properties depend on its size; for example, atmospheric and aerosol science and many other fluid-dynamic applications. The product difference algorithm is an example of a quadrature(-based) method of moments (QBMM, QMoM or QMM). It is an explicit, exact solution to the classical problem of moments and allows a discrete distribution to be expressed with an arbitrary number of elements with the same moments for computational efficiency.</p>
+<section id="using-the-pda-in-psd-analyser">
+<h2>Using the PDA in <em>PSD Analyser</em><a class="headerlink" href="#using-the-pda-in-psd-analyser" title="Permalink to this heading">¶</a></h2>
+<p><strong>1. Python</strong></p>
+<p>The function <em>product_difference_algorithm</em> takes the particle sizes, $d$, the corresponding PDF and $N$ (optional; default is $N =3$), and returns an $N$-sized distribution with the same statistical moments as the input distribution.</p>
+<p><strong>2. MATLAB</strong></p>
+<p>As Python.</p>
+</section>
+<section id="id1">
+<h2>Detailed description<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
+<p>The $k$ th statistical moment, $m_k$, of a distribution of a variable $x$ is:</p>
+<p>$$ m_k = \int x^k f(x)dx \approx \sum_{i=1}^n w_i x_i^k, \ k = 0,\dots,N, \tag{1} $$</p>
+<p>where $f(x)$ is the distribution function in the range $x$ to $x$ + $dx$, and $w_i$ and $x_i$ are the $i$th weights and abscissas of a corresponding discrete distribution; $w_i$ may alternatively be expressed as $W_i$ $\Delta x_i$ in the case of a measured distribution with variable bin sizes, where $W_i$ is a suitably modified weight. For closure, it is required that $N = 2n-1$, and $m_0$ = 1 if the distribution is suitably normalised.</p>
+<p>The question of whether a function $f$ (or $w_i$ and $x_i$ in the discrete case) exists that satisfies Equation (1), where the values of $m_k$ are known, is a form of the classical problem of moments (Shohat and Tamarkin, 1943; Wheeler and Gordon, 1971). Equation (1) or similar expressions occur widely in modelling of particulate kinetics (Marchisio <em>et al.</em>, 2003; McGraw, 1997) and modelling of a distribution (particle size, for example) as a small number of moments offers computational advantages. In the discrete case Equation (1) produces $N+1$ non-linear equations the solution of which is not straightforward. An explicit, $O(n^2)$ method for solving Equation (1) for $w_i$ and $x_i$ for arbitrary values of $N$ was described by Gordon (1968) and is referred to as the product-difference algorithm to differentiate it from other, similar ones such as quotient-difference algorithms (Rutishauser, 1957). We are not aware of a complete, correct description of the PDA in recipe form, including indices, for numerical computation and what follows is presented as such.</p>
+<p>The procedure for implementation the PDA begins with the construction of a $2N+1$ square matrix $P$ such that $P_{1,1} = 1$ and $P_{i,1} = 0$ otherwise, and:</p>
+<p>$$ P_{i,2} = (-1)^{i-1} m_{i-1}, \ i = 1,\dots,2n, \tag{2} $$</p>
+<p>$$ P_{i,j} = P_{1,j-1} P_{i+1,j-2}-P_{1,j-2} P_{i+1,j-1}, \ i = 1,\dots,2n+2-j, \ j = 3,\dots,2n+1. \tag{3} $$</p>
+<p>Explicit expressions and tabulations of $P$ for various values of $n$ and $m_k$ (Gordon, 1968; Marchisio <em>et al.</em>, 2003; Wheeler and Gordon, 1971). A $2n$-sized vector, $\alpha$, is then constructed such that $\alpha_1 = 0$ and:</p>
+<p>$$ α_i=P_{1,i+1}/(P_{1,i} P_{1,i-1} ), \ i = 2,\dots,2n. \tag{4} $$</p>
+<p>Finally, $n$- and $(n-1)$-sized vectors, $a$ and $b$ respectively, are constructed such that:</p>
+<p>$$ a_i = α_2i + α_{2i-1}, \ i = 1,\dots,n, \tag{5} $$</p>
+<p>$$ b_i = -\sqrt{α_{2i+1} + α_2i}, \ i = 1,\dots,n-1, \tag{6} $$</p>
+<p>and are then used to construct a tridiagonal matrix, $J$, with a forming the main diagonal and $b$ both the sub- and superdiagonals. The eigenvalues of $J$ give the abscissas, $x_i$, directly and the first components, $v_{i,1}$, of each eigenvector of $J$ give the weights, $w_i$, as follows (McGraw, 1997):</p>
+<p>$$ w_i=m_0 v_{i,1}^2, \ i = 1,\dots,n. \tag{7} $$</p>
+<p>The PDA was used recently and very successfully by Mwasame <em>et al.</em> (2016) to model volume-weighted particle size distributions (with $n = 3$) in order to implement a model of the viscosity of multiphase (solid-liquid) mixtures with arbitrary solid-phase size distributions. In the case of $n = 3$, <em>i.e.</em> a ternary distribution, Equation (1) becomes:</p>
+<p>$$ m_k = \sum_{i=1}^3 w_i x_i^k = w_1 x_1^k + w_2 x_2^k + w_3 x_3^k, \ k=0,\dots,5, \tag{8} $$</p>
+<p>and $a$ and $b$ (Equations (5) and (6)) form the matrix $J$ as follows (McGraw, 1997):</p>
+<p>$$ J = \begin{pmatrix}
+b_1 &amp; a_1 &amp; \
+a_1 &amp; b_2 &amp; a_2 \
+&amp; a_2 &amp; b_3 \
+\end{pmatrix}. \tag{9} $$</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PSD-Analyser</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html"><strong>PSD Analyser: A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#quick-start-guide">Quick-start guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#detailed-guide">Detailed guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#contact-and-issue-reporting">Contact and issue reporting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#how-to-cite-this-repository">How to cite this repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#references-and-notes">References and notes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Mathematical tools used by <em>PSD Analyser</em></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#hugh-patrick-rice-2022">Hugh Patrick Rice, 2022</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#lognormal-distribution">1. Lognormal distribution</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#using-the-lognormal-distribution-in-psd-analyser">Using the lognormal distribution in <em>PSD Analyser</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#detailed-description">Detailed description</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#product-difference-algorithm-pda">2. Product difference algorithm (PDA)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#using-the-pda-in-psd-analyser">Using the PDA in <em>PSD Analyser</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Detailed description</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="readme.html" title="previous chapter"><strong>PSD Analyser: A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation</strong></a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Hugh Rice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/equations.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
