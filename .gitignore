@@ -11,3 +11,7 @@
 
 *.egg-info/
 *.egg-info/*
+
+# May want to keep docs local later
+#docs/
+#docs/*
