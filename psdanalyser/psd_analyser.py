@@ -22,37 +22,75 @@ import openpyxl
 # sys.path.append(os.path.join(os.path.dirname(__file__)))
 
 
+def lognormal_CDF(x, M, S, called_by="") -> int:
+    """Calculate value of lognormal CDF at x with lognormal parameters M, S
 
-''' Returns value of lognormal CDF at x
-    with lognormal parameters M, S '''
-def lognormal_CDF(x, M, S, called_by = None):
+    Parameters
+    ----------
+    x : float
+        Particle size (microns)
+    M : float
+        First lognormal parameter (dimensionless)
+    S : float
+        Second lognormal parameter (dimensionless)
+    called_by : str
+        Name of function/method calling this method
+
+    Returns
+    -------
+    CDF : float
+        Value of lognormal cumulative distribution function at (x, M, S)
+
+    """
+
     if called_by:
         print('Called by: ', called_by)
     # print('LN_CDF: ', x, M, S)
     CDF = 0.5*(1.0+erf((np.log(x)-M)/(S*np.sqrt(2.0))))
     return CDF
 
-''' Returns value of (normalised) lognormal PDF at x
-    with lognormal parameters M, S '''
+
 def lognormal_PDF(x, M, S):
+    """Calculate value of (normalised) lognormal PDF at x with lognormal parameters M, S
+
+    Parameters
+    ----------
+    x : float
+        Particle size (microns)
+    M : float
+        First lognormal parameter (dimensionless)
+    S : float
+        Second lognormal parameter (dimensionless)
+    called_by : str
+        Name of function/method calling this method
+
+    Returns
+    -------
+    PDF : float
+        Value of lognormal probability density function at (x, M, S)
+
+    """
     PDF = (1.0/(S*np.sqrt(2.0*np.pi)*x))*np.exp(-((np.log(x)-M)**2)/(2*(S**2)))
     return PDF
 
+
 ''' To fit to lognormal using normalised PDF '''
-def fit_lognormal_PDF(d, P_norm, p0 = None):
+def fit_lognormal_PDF(d, P_norm, p0=[]):
     if not p0:
         p0 = np.random.random(2)
     results = curve_fit(lognormal_PDF, d, P_norm, p0)
     M,S = results[0]
     return M,S
 
+
 ''' To fit to lognormal using CDF '''
-def fit_lognormal_CDF(d, C, p0 = None):
+def fit_lognormal_CDF(d, C, p0=[]):
     if not p0:
         p0 = np.random.random(2)
     results = curve_fit(lognormal_CDF, d, C, p0)
     M,S = results[0]
     return M,S
+
 
 ''' To fit to lognormal using linearised CDF '''
 def fit_lognormal_CDF_linear(d, C):
@@ -66,19 +104,23 @@ def fit_lognormal_CDF_linear(d, C):
     # print('Linear regression R = ', R)
     return M,S
 
+
 def get_mu(M, S):
     _mu = np.exp(M + S**2/2.0)
     return _mu
 
+
 def get_sigma(M, S):
     _sigma = np.sqrt(np.exp(S**2 + 2.0*M)*(np.exp(S**2)-1.0))
     return _sigma
+
 
 ''' Returns x value corresponding to pth quantile (0 < p < 100)
     of lognormal distribution with parameters M, S '''
 def lognormal_quantile(M, S, p):
     x_p = np.exp(M + np.sqrt(2.0*S**2)*erfinv(2.0*(p/100)-1.0))
     return x_p
+
 
 ''' Calculate nth or (n/m)th moment of distribution
     f = frequencies at discrete values of x
@@ -92,6 +134,7 @@ def moment(x, P, n, m = 0):
     result = M1/M2
     return result
 
+
 ''' Get nth or (n/m)th moment of lognormal distribution
     m = 0 by default, i.e. denominator is unity '''
 def lognormal_moment(M, S, n, m = 0):
@@ -103,6 +146,7 @@ def lognormal_moment(M, S, n, m = 0):
     result = M1/M2
     return result
 
+
 ''' To compute moment from PSD (raw or from PDA) and lognormal parameters '''
 def moments_compare(x, P, M, S, n, m):
     ''' Get moments from PDF and lognormal fit '''
@@ -110,6 +154,7 @@ def moments_compare(x, P, M, S, n, m):
     m_lognormal = lognormal_moment(M,S,n,m)
     moments = (m_PSD, m_lognormal)
     return moments
+
 
 ''' To use product difference algorithm to create new PSD with N arbitrary elements
     having same moments as input PSD
@@ -140,7 +185,7 @@ def product_difference_algorithm(PSD, N = None):
     B[0,0] = 1
     ''' Second column '''
     for i in range(2*N):
-        B[i,1] = (-1)**i * m[i];
+        B[i,1] = (-1)**i * m[i]
     ''' Third column onwards '''
     for j in range(2,2*N+1):
         for i in range(2*N+1-j):
@@ -175,6 +220,7 @@ def product_difference_algorithm(PSD, N = None):
     PSD_new = (x_new,P_new)
     return PSD_new
 
+
 ''' To estimate packing fraction of particle species;
     assumes non-interacting, spherical particles with lognormal sizes
     - Farr (2013), DOI: https://doi.org/10.1016/j.powtec.2013.04.009 '''
@@ -182,13 +228,16 @@ def packing_fraction(M, S):
     _phi = 1.0 - 0.57*np.exp(-S) + 0.2135*np.exp(-0.57*S/0.2135) + 0.0019*(np.cos(2.0*np.pi*(1 - np.exp(-0.75*S**(0.7) - 0.025*S**4))) - 1)
     return _phi
 
+
 def load_csv(file, *args, **kwargs):
     loaded_data = pd.read_csv(file, *args, **kwargs)
     return loaded_data
 
+
 def load_excel(file, *args, **kwargs):
     loaded_data = pd.read_excel(file, *args, **kwargs)
     return loaded_data
+
 
 ''' Plot CDF, optionally with fit curve '''
 def plot_CDF(x, CDF, ax, fit_data = None, log_mode = False, xlabel = None, ylabel = None):
@@ -215,6 +264,7 @@ def plot_CDF(x, CDF, ax, fit_data = None, log_mode = False, xlabel = None, ylabe
     if ylabel:
         ax.set_ylabel(ylabel)
 
+
 ''' Plot (normalised) PDF, optionally with fit curve '''
 def plot_PDF(x, PDF, ax, fit_data = None, log_mode = False, xlabel = None, ylabel = None):
     if log_mode:
@@ -240,6 +290,7 @@ def plot_PDF(x, PDF, ax, fit_data = None, log_mode = False, xlabel = None, ylabe
     if ylabel:
         ax.set_ylabel(ylabel)
 
+
 ''' To grab non-zero parts of PSD '''
 def get_valids(x_raw, C_raw, P_raw):
     valids = [i for i,el in enumerate(P_raw) if (el > 0.0) and C_raw[i] < 1.0]
@@ -248,7 +299,6 @@ def get_valids(x_raw, C_raw, P_raw):
     C = [C_raw[i] for i in valids]
     P = [P_raw[i] for i in valids]
     return x,C,P
-
 
 
 class PSDAnalyser():
@@ -282,6 +332,7 @@ class PSDAnalyser():
         if not ax:
             self.fig = mpl.figure.Figure()
             self.ax = self.fig.add_subplot()
+
 
     ''' Raw data to DataFrame '''
     def load_spreadsheet(self, file):
@@ -340,6 +391,7 @@ class PSDAnalyser():
                     self.datasets[row] = dataset
 
         print('Loaded spreadsheet')
+
 
     ''' Return dataset by row; bin group optional '''
     def get_dataset(self, row, group = None, fit_mode = None, prefit = None, column_dict = None):
@@ -474,6 +526,7 @@ class PSDAnalyser():
 
         return dataset
 
+
     ''' To toggle dataset between CDF and PDF fit modes; and prefit if specified '''
     def toggle_fit_mode(self, row, prefit = True):
         if not hasattr(self, 'datasets'):
@@ -525,6 +578,7 @@ class PSDAnalyser():
         ds['mu'] = mu
         ds['sigma'] = sigma
         ds['COV'] = COV
+
 
     def export_to_spreadsheet(self, file = None):
         print('Exporting all original and processed PSD data; in original format unless specified')
@@ -613,6 +667,7 @@ class PSDAnalyser():
                     data = ds[thing]
                     pd.DataFrame([data]).to_excel(writer, sheet_name = str(dataset), startrow = y_off, startcol = x_off, index = False, header = False)
 
+
     ''' Dump current figure to image file '''
     def dump_figure(self, file = None):
         ''' Create filename if not specified based on defaults (JPG) '''
@@ -632,7 +687,6 @@ class PSDAnalyser():
             print(e)
 
 
-
 if __name__ == "__main__":
 
     
@@ -641,31 +695,31 @@ if __name__ == "__main__":
     '''
 
     ''' Load data from spreadsheet '''
-    ps = PSDAnalyser()
-    dir_ = os.path.dirname(os.getcwd())
-    file = os.path.join(dir_, 'example2.xlsx')
-    ps.load_spreadsheet(file)
-
-    ''' Grab first dataset and print summary of some parameters '''
-    dataset = min(ps.datasets)
-    ds = ps.datasets[dataset]
-    print('Got dataset number/name', dataset, ds['sample_name'])
-    M = ds['M']
-    S = ds['S']
-    print('Log-normal parameters, M and S:', M, S)
-
-    ''' Show some comparisons of original data and log-normal fit '''
-    d10 = ds['d10']
-    d50 = ds['d50']
-    d90 = ds['d90']
-    d10_fit = ds['d10_fit']
-    d50_fit = ds['d50_fit']
-    d90_fit = ds['d90_fit']
-    print('Quantiles from original data (d10, d50, d90):', d10, d50, d90)
-    print('Quantiles from log-normal fit (d10, d50, d90):', d10_fit, d50_fit, d90_fit)
-
-    ''' Dump all data to spreadsheet in original file format '''
-    ps.export_to_spreadsheet()
+    # ps = PSDAnalyser()
+    # dir_ = os.path.dirname(os.getcwd())
+    # file = os.path.join(dir_, 'example2.xlsx')
+    # ps.load_spreadsheet(file)
+    #
+    # ''' Grab first dataset and print summary of some parameters '''
+    # dataset = min(ps.datasets)
+    # ds = ps.datasets[dataset]
+    # print('Got dataset number/name', dataset, ds['sample_name'])
+    # M = ds['M']
+    # S = ds['S']
+    # print('Log-normal parameters, M and S:', M, S)
+    #
+    # ''' Show some comparisons of original data and log-normal fit '''
+    # d10 = ds['d10']
+    # d50 = ds['d50']
+    # d90 = ds['d90']
+    # d10_fit = ds['d10_fit']
+    # d50_fit = ds['d50_fit']
+    # d90_fit = ds['d90_fit']
+    # print('Quantiles from original data (d10, d50, d90):', d10, d50, d90)
+    # print('Quantiles from log-normal fit (d10, d50, d90):', d10_fit, d50_fit, d90_fit)
+    #
+    # ''' Dump all data to spreadsheet in original file format '''
+    # ps.export_to_spreadsheet()
 
 
 
