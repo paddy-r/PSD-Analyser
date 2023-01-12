@@ -1,5 +1,7 @@
 ## **PSD Analyser: A set of Python/MATLAB tools for particle size distribution (PSD) analysis and visualisation**
 
+$$P_0$$
+
 ### Hugh Patrick Rice, 2022
 
 [![DOI](https://zenodo.org/badge/328645883.svg)](https://zenodo.org/badge/latestdoi/328645883)
