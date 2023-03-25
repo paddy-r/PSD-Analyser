@@ -12,11 +12,10 @@
 - Once downloaded, double-click the executable file and it will run, then try loading any of the example spreadsheets to view some PSD data
 
 **Run the code directly**
-- Clone the repository or download files individually as you wish
+- Clone the repository via ```git clone https://github.com/paddy-r/PSD-Analyser``` or download files individually from here or the *Releases* page as you wish
 - (Python) Import into your Python environment
-  - Create a suitable Python environment
-  - Clone this repository, either locally or from Github
-  - Import *PSD Analyser* into your Python environment
+  - Create a suitable Python environment using the environment file provided via the command ```conda env create -n psd -f environment.yml``` followed by ```conda activate psd``` (or ```source activate psd```, depending on your system)
+  - Install *PSD Analyser* in your Python environment via ```pip install -v -e .```
   - There are several examples given in the *psd_analyser* script to demonstrate functionality, specifically: loading and saving data, plotting PSDs, fitting PSDs to log-normal distributions; and reducing them to $N$ components using the product difference algorithm (PDA); comment out the code as appropriate
 - (MATLAB) Import each function and class individually (**to be completed**)
   - Download and call the functions individually (more functionality under development)
@@ -50,8 +49,8 @@ The app (*PSDA_app*) creates a user interface for loading, interacting with and 
 
 **Using *PSD Analyser* in code form (Python)**
 
-- Create an environment using the file provided via the following command: ```conda env create -f environment.yaml```, then activate it with ```conda activate psdanalyser```
-- Navigate to the folder containing ```setup.py``` and install the *PSD Analyser* package into your environment via ```conda install -e .```, where the final ```.``` (period/full stop) is required, and the ```-e``` flag indicates development mode and is optional
+- Create an environment as described in the quick start guide
+- Navigate to the folder containing ```setup.py``` and install the *PSD Analyser* package into your environment as described in the quick start guide
 - There are then multiple ways to use various functionalities of *PSD Analyser*, for example:
   - From the command line, run the app as follows: ```python psdanalyser\PDSA_app.py```
   - In your Python kernel, instantiate the app with ```import psdanalyser.PSDA_app as app```, then run it with ```apptest = app.TkApp()```
@@ -70,10 +69,10 @@ The app was created using the Python library *pyinstaller*, and you can do the s
 pip install pyinstaller
 ```
 
-2. Then navigate to the directory containing your Python scripts (*i.e.* *PSD-Analyser.py* and *psd_analyser.py*) and create the executables, where: the ```noconsole``` option creates an executable without a console window (this option can be removed if you wish to use the console window for debugging); and the ```onefile``` option creates a single executable file (if this option is removed, the resulting executable may be smaller but a number of directories will be created alongside the executable)
+2. Create an executable using the command below, where: the ```noconsole``` option creates an executable without a console window (this option can be removed if you wish; doing so causes the app to create a console window for debugging); and the ```onefile``` option creates a single executable file (if this option is removed, the resulting executable may be smaller but a number of directories will be created alongside the executable)
 
 ```
-pyinstaller --onefile --noconsole PSDA_app.py --hidden-import=openpyxl
+pyinstaller --onefile --noconsole psdanalyser/PSDA_app.py --hidden-import=openpyxl
 ```
 
 **Important equations used by *PSD Analyser***
